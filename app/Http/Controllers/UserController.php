@@ -80,6 +80,10 @@ class UserController extends Controller
 
             'password' => Hash::make($request->password),
 
+            'role' => $request->role ?? 'admin',
+
+            'role' => 'required',
+
             'status' => 1,
 
         ]);
@@ -132,6 +136,8 @@ class UserController extends Controller
 
             'email'=>'required|email',
 
+            'role' => 'required',
+
         ]);
 
 
@@ -145,6 +151,8 @@ class UserController extends Controller
             'phone'=>$request->phone,
 
             'employee_id'=>$request->employee_id,
+
+            'role' => $request->role,
 
             'status'=>$request->status,
 

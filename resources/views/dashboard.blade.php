@@ -4,7 +4,6 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
 
-```
 <div>
     <h2 class="fw-bold mb-1">
         Dashboard
@@ -14,13 +13,12 @@
         Smart Access Control System Overview
     </p>
 </div>
-```
+
 
 </div>
 
 <div class="row">
 
-```
 <div class="col-lg-3 col-md-6 mb-4">
     <div class="card border-0 shadow-sm">
         <div class="card-body">
@@ -110,13 +108,12 @@
         </div>
     </div>
 </div>
-```
+
 
 </div>
 
 <div class="card border-0 shadow-sm mt-4">
 
-```
 <div class="card-header bg-white">
     <h4 class="mb-0">
         Recent Access Logs
@@ -180,13 +177,11 @@
     </table>
 
 </div>
-```
 
 </div>
 
 <div class="card border-0 shadow-sm mt-4">
 
-```
 <div class="card-header bg-white">
     <h4 class="mb-0">
         Device Health Monitor
@@ -262,7 +257,6 @@
     </table>
 
 </div>
-```
 
 </div>
 

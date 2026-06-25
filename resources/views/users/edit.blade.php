@@ -157,6 +157,32 @@
 
 
 
+            <div class="col-md-6 mb-3">
+
+    <label class="form-label">
+        Role
+    </label>
+
+    <select name="role" class="form-control">
+
+        <option value="admin"
+            {{ $user->role == 'admin' ? 'selected' : '' }}>
+            Admin
+        </option>
+
+        <option value="operator"
+            {{ $user->role == 'operator' ? 'selected' : '' }}>
+            Operator
+        </option>
+
+        <option value="security"
+            {{ $user->role == 'security' ? 'selected' : '' }}>
+            Security Guard
+        </option>
+
+    </select>
+
+</div>
 
 
 

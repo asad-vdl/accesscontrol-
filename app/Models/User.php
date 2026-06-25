@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
     'phone',
     'employee_id',
     'password',
+    'role',
     'status'
 ])]
 
