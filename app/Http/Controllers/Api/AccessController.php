@@ -193,15 +193,17 @@ $permission = UserDevicePermission::where('user_id', $credential->user_id)
 
         return response()->json([
 
-            'status'=>'granted',
+    'status' => 'granted',
 
-            'message'=>'Access Allowed',
+    'message' => 'Access Allowed',
 
-            'user_id'=>$credential->user_id,
+    'user_id' => $credential->user_id,
 
-            'device'=>$device->name
+    'user_name' => $user->name,
 
-        ]);
+    'device' => $device->name
+
+]);
 
 
 
