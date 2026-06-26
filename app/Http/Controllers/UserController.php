@@ -5,34 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-
 
     /**
      * Display users list
      */
     public function index()
-{
-    $users = User::latest()->get();
+    {
+        $users = User::latest()->get();
 
-    $totalUsers = User::count();
+        $totalUsers = User::count();
 
-    $activeUsers = User::where('status', 1)->count();
+        $activeUsers = User::where('status', 1)->count();
 
-    $inactiveUsers = User::where('status', 0)->count();
+        $inactiveUsers = User::where('status', 0)->count();
 
-    return view('users.index', compact(
-        'users',
-        'totalUsers',
-        'activeUsers',
-        'inactiveUsers'
-    ));
-}
-
-
+        return view('users.index', compact(
+            'users',
+            'totalUsers',
+            'activeUsers',
+            'inactiveUsers'
+        ));
+    }
 
     /**
      * Show add user page
@@ -42,15 +39,11 @@ class UserController extends Controller
         return view('users.create');
     }
 
-
-
-
     /**
      * Save new user
      */
     public function store(Request $request)
     {
-
 
         $request->validate([
 
@@ -64,9 +57,19 @@ class UserController extends Controller
 
             'password' => 'required|min:6',
 
+            'role' => 'required',
+
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+
         ]);
 
+        $photo = null;
 
+        if ($request->hasFile('photo')) {
+
+            $photo = $request->file('photo')->store('users', 'public');
+
+        }
 
         User::create([
 
@@ -78,95 +81,94 @@ class UserController extends Controller
 
             'employee_id' => $request->employee_id,
 
+            'photo' => $photo,
+
             'password' => Hash::make($request->password),
 
             'role' => $request->role ?? 'admin',
 
-            'role' => 'required',
-
-            'status' => 1,
+            'status' => $request->status,
 
         ]);
 
-
-
         return redirect()
-                ->route('users.index')
-                ->with('success','User Created Successfully');
-
+            ->route('users.index')
+            ->with('success', 'User Created Successfully');
     }
-
-
-
 
     /**
      * Show single user
      */
     public function show(User $user)
     {
-        return view('users.show',compact('user'));
+        return view('users.show', compact('user'));
     }
-
-
-
-
 
     /**
      * Edit user page
      */
     public function edit(User $user)
     {
-        return view('users.edit',compact('user'));
+        return view('users.edit', compact('user'));
     }
-
-
-
-
-
-    /**
+        /**
      * Update user
      */
     public function update(Request $request, User $user)
     {
 
-
         $request->validate([
 
-            'name'=>'required',
+            'name' => 'required',
 
-            'email'=>'required|email',
+            'email' => 'required|email',
 
             'role' => 'required',
 
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+
         ]);
 
+
+        $photo = $user->photo;
+
+        if ($request->hasFile('photo')) {
+
+            if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+
+                Storage::disk('public')->delete($user->photo);
+
+            }
+
+            $photo = $request->file('photo')->store('users', 'public');
+
+        }
 
 
         $user->update([
 
-            'name'=>$request->name,
+            'name' => $request->name,
 
-            'email'=>$request->email,
+            'email' => $request->email,
 
-            'phone'=>$request->phone,
+            'phone' => $request->phone,
 
-            'employee_id'=>$request->employee_id,
+            'employee_id' => $request->employee_id,
+
+            'photo' => $photo,
 
             'role' => $request->role,
 
-            'status'=>$request->status,
+            'status' => $request->status,
 
         ]);
 
 
-
         return redirect()
                 ->route('users.index')
-                ->with('success','User Updated Successfully');
+                ->with('success', 'User Updated Successfully');
 
     }
-
-
 
 
 
@@ -176,14 +178,18 @@ class UserController extends Controller
     public function destroy(User $user)
     {
 
-        $user->delete();
+        if ($user->photo && Storage::disk('public')->exists($user->photo)) {
 
+            Storage::disk('public')->delete($user->photo);
+
+        }
+
+        $user->delete();
 
         return redirect()
                 ->route('users.index')
-                ->with('success','User Deleted Successfully');
+                ->with('success', 'User Deleted Successfully');
 
     }
-
 
 }

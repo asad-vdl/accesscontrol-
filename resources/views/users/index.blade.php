@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -118,6 +119,8 @@
 
                             <th>ID</th>
 
+                            <th>Photo</th>
+
                             <th>Name</th>
 
                             <th>Email</th>
@@ -147,19 +150,48 @@
                             </td>
 
                             <td>
+
+                                @if($user->photo)
+
+                                    <img src="{{ asset('storage/'.$user->photo) }}"
+                                         width="50"
+                                         height="50"
+                                         class="rounded-circle border"
+                                         style="object-fit:cover;">
+
+                                @else
+
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=0d6efd&color=ffffff"
+                                         width="50"
+                                         height="50"
+                                         class="rounded-circle">
+
+                                @endif
+
+                            </td>
+
+                            <td>
+
                                 <strong>{{ $user->name }}</strong>
+
                             </td>
 
                             <td>
+
                                 {{ $user->email }}
+
                             </td>
 
                             <td>
+
                                 {{ $user->phone ?? '-' }}
+
                             </td>
 
                             <td>
+
                                 {{ $user->employee_id ?? '-' }}
+
                             </td>
 
                             <td>
@@ -215,7 +247,7 @@
 
                         <tr>
 
-                            <td colspan="7" class="text-center py-4">
+                            <td colspan="8" class="text-center py-4">
 
                                 No Users Found
 

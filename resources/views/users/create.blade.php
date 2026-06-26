@@ -1,11 +1,9 @@
+```blade
 @extends('layouts.app')
-
 
 @section('content')
 
-
 <div class="card-box">
-
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
@@ -13,28 +11,22 @@
             Add New User
         </h3>
 
-
         <a href="{{ route('users.index') }}" class="btn btn-secondary">
             Back
         </a>
 
-
     </div>
-
-
 
 
     @if($errors->any())
 
     <div class="alert alert-danger">
 
-        <ul>
+        <ul class="mb-0">
 
             @foreach($errors->all() as $error)
 
-            <li>
-                {{ $error }}
-            </li>
+                <li>{{ $error }}</li>
 
             @endforeach
 
@@ -46,25 +38,20 @@
 
 
 
-
-
-
-    <form action="{{ route('users.store') }}" method="POST">
+    <form action="{{ route('users.store') }}"
+          method="POST"
+          enctype="multipart/form-data">
 
         @csrf
 
 
-
         <div class="row">
-
-
 
             <div class="col-md-6 mb-3">
 
                 <label class="form-label">
                     Name
                 </label>
-
 
                 <input type="text"
                        name="name"
@@ -75,15 +62,11 @@
             </div>
 
 
-
-
-
             <div class="col-md-6 mb-3">
 
                 <label class="form-label">
                     Email
                 </label>
-
 
                 <input type="email"
                        name="email"
@@ -94,15 +77,11 @@
             </div>
 
 
-
-
-
             <div class="col-md-6 mb-3">
 
                 <label class="form-label">
                     Phone
                 </label>
-
 
                 <input type="text"
                        name="phone"
@@ -113,15 +92,11 @@
             </div>
 
 
-
-
-
             <div class="col-md-6 mb-3">
 
                 <label class="form-label">
                     Employee ID
                 </label>
-
 
                 <input type="text"
                        name="employee_id"
@@ -132,16 +107,11 @@
             </div>
 
 
-
-
-
-
             <div class="col-md-6 mb-3">
 
                 <label class="form-label">
                     Password
                 </label>
-
 
                 <input type="password"
                        name="password"
@@ -151,31 +121,29 @@
             </div>
 
 
-
-
             <div class="col-md-6 mb-3">
 
-    <label class="form-label">
-        Role
-    </label>
+                <label class="form-label">
+                    Role
+                </label>
 
-    <select name="role" class="form-control">
+                <select name="role" class="form-control">
 
-        <option value="admin">
-            Admin
-        </option>
+                    <option value="admin">
+                        Admin
+                    </option>
 
-        <option value="operator">
-            Operator
-        </option>
+                    <option value="operator">
+                        Operator
+                    </option>
 
-        <option value="security">
-            Security Guard
-        </option>
+                    <option value="security">
+                        Security Guard
+                    </option>
 
-    </select>
+                </select>
 
-</div>
+            </div>
 
 
             <div class="col-md-6 mb-3">
@@ -184,32 +152,39 @@
                     Status
                 </label>
 
-
                 <select name="status" class="form-control">
-
 
                     <option value="1">
                         Active
                     </option>
 
-
                     <option value="0">
                         Inactive
                     </option>
 
-
                 </select>
-
 
             </div>
 
 
+            <div class="col-md-6 mb-3">
 
+                <label class="form-label">
+                    Profile Photo
+                </label>
+
+                <input type="file"
+                       name="photo"
+                       class="form-control"
+                       accept=".jpg,.jpeg,.png">
+
+                <small class="text-muted">
+                    JPG, JPEG, PNG (Maximum 2MB)
+                </small>
+
+            </div>
 
         </div>
-
-
-
 
 
         <button type="submit" class="btn btn-primary">
@@ -218,14 +193,9 @@
 
         </button>
 
-
-
     </form>
-
-
 
 </div>
 
-
-
 @endsection
+
