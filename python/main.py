@@ -1,5 +1,6 @@
 from api import check_access
 from voice import speak
+from hardware import grant_access, deny_access
 
 print("===================================")
 print(" Smart Access Control System ")
@@ -26,11 +27,15 @@ while True:
 
         speak(message)
 
+        grant_access()
+
     elif result.get("status") == "denied":
 
         print("Access Denied")
 
         speak("You are not authorized")
+
+        deny_access()
 
     else:
 
