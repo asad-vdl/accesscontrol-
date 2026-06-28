@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Fingerprint Access</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>
+        Smart Access Control
+    </h1>
+
+    <h2>
+        Fingerprint Authentication
+    </h2>
+
+
+    <form action="/fingerprint" method="post">
+
+        <input
+            type="text"
+            name="fingerprint"
+            placeholder="Enter Fingerprint ID"
+            class="input-box"
+            required
+        >
+
+
+        <button class="btn">
+            CHECK FINGERPRINT
+        </button>
+
+    </form>
+
+
+    <br>
+
+    <a href="/" class="btn">
+        ← Back
+    </a>
+
+
+</div>
+
+</body>
+
+</html>

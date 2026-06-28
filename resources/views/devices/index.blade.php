@@ -168,29 +168,33 @@
 
                         </td>
 
-                        <td>
+                       <td>
 
-                            <a href="{{ route('devices.edit',$device->id) }}"
-                               class="btn btn-sm btn-warning">
-                                Edit
-                            </a>
+                            <div class="d-flex gap-2">
 
-                            <form action="{{ route('devices.destroy',$device->id) }}"
-                                  method="POST"
-                                  style="display:inline-block;">
+                                <a href="{{ route('devices.edit',$device->id) }}"
+                                class="btn btn-sm btn-warning">
+                                    Edit
+                                </a>
 
-                                @csrf
-                                @method('DELETE')
+                                <form action="{{ route('devices.destroy',$device->id) }}"
+                                    method="POST"
+                                    class="m-0">
 
-                                <button type="submit"
-                                        class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Delete Device?')">
+                                    @csrf
+                                    @method('DELETE')
 
-                                    Delete
+                                    <button type="submit"
+                                            class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Delete Device?')">
 
-                                </button>
+                                        Delete
 
-                            </form>
+                                    </button>
+
+                                </form>
+
+                            </div>
 
                         </td>
 

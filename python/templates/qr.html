@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>QR Access</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>
+        Smart Access Control
+    </h1>
+
+    <h2>
+        QR Authentication
+    </h2>
+
+
+    <form action="/qr" method="post">
+
+        <input
+            type="text"
+            name="qr"
+            placeholder="Enter QR Value"
+            class="input-box"
+            required>
+
+
+        <button class="btn">
+            CHECK QR
+        </button>
+
+
+    </form>
+
+
+    <br>
+
+    <a href="/" class="btn">
+        ← Back
+    </a>
+
+
+</div>
+
+</body>
+
+</html>

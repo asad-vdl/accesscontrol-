@@ -178,7 +178,7 @@
     <div class="topbar d-flex justify-content-between align-items-center">
 
         <h4 class="mb-0">
-            Access Control Management System
+            Smart Access Control
         </h4>
 
         <span class="badge bg-primary fs-6">
