@@ -5,6 +5,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from hardware.hardware import manual_open, manual_close
+
 
 app = FastAPI(
     title="Smart Access Control"
@@ -19,6 +21,9 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
+# =========================
+# HOME PAGE
+# =========================
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -29,8 +34,54 @@ async def home(request: Request):
     )
 
 
+# =========================
+# DOOR CONTROL PAGE
+# =========================
 
+@app.get("/door", response_class=HTMLResponse)
+async def door(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="door.html",
+        context={
+            "door_status": "closed"
+        }
+    )
+
+
+@app.post("/door/open", response_class=HTMLResponse)
+async def open_door(request: Request):
+
+    manual_open()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="door.html",
+        context={
+            "door_status": "open"
+        }
+    )
+
+
+@app.post("/door/close", response_class=HTMLResponse)
+async def close_door(request: Request):
+
+    manual_close()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="door.html",
+        context={
+            "door_status": "closed"
+        }
+    )
+
+
+# =========================
 # CARD PAGE
+# =========================
+
 @app.get("/card", response_class=HTMLResponse)
 async def card(request: Request):
 
@@ -40,8 +91,10 @@ async def card(request: Request):
     )
 
 
-
+# =========================
 # PIN PAGE
+# =========================
+
 @app.get("/pin", response_class=HTMLResponse)
 async def pin(request: Request):
 
@@ -51,8 +104,10 @@ async def pin(request: Request):
     )
 
 
-
+# =========================
 # QR PAGE
+# =========================
+
 @app.get("/qr", response_class=HTMLResponse)
 async def qr(request: Request):
 
@@ -62,8 +117,10 @@ async def qr(request: Request):
     )
 
 
-
+# =========================
 # FINGERPRINT PAGE
+# =========================
+
 @app.get("/fingerprint", response_class=HTMLResponse)
 async def fingerprint(request: Request):
 
@@ -73,8 +130,10 @@ async def fingerprint(request: Request):
     )
 
 
-
+# =========================
 # CARD CHECK
+# =========================
+
 @app.post("/card", response_class=HTMLResponse)
 async def check_card(
     request: Request,
@@ -92,8 +151,10 @@ async def check_card(
     )
 
 
-
+# =========================
 # PIN CHECK
+# =========================
+
 @app.post("/pin", response_class=HTMLResponse)
 async def check_pin(
     request: Request,
@@ -111,8 +172,10 @@ async def check_pin(
     )
 
 
-
+# =========================
 # QR CHECK
+# =========================
+
 @app.post("/qr", response_class=HTMLResponse)
 async def check_qr(
     request: Request,
@@ -130,8 +193,10 @@ async def check_qr(
     )
 
 
-
+# =========================
 # FINGERPRINT CHECK
+# =========================
+
 @app.post("/fingerprint", response_class=HTMLResponse)
 async def check_fingerprint(
     request: Request,

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Door Control</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>🚪 Manual Door Control</h1>
+
+        <h2>Door Status</h2>
+
+        {% if door_status == "open" %}
+
+            <h1 class="open">
+                🔓 OPEN
+            </h1>
+
+        {% else %}
+
+            <h1 class="closed">
+                🔒 CLOSED
+            </h1>
+
+        {% endif %}
+
+        <br>
+
+        <form action="/door/open" method="post">
+
+            <button type="submit" class="btn">
+
+                🟢 OPEN DOOR
+
+            </button>
+
+        </form>
+
+
+        <form action="/door/close" method="post">
+
+            <button type="submit" class="btn">
+
+                🔴 CLOSE DOOR
+
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="/" class="btn">
+            ⬅ Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

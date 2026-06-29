@@ -68,3 +68,73 @@ h2{
 
     box-sizing:border-box;
 }
+
+.card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+
+}
+
+.success{
+
+    border-top:6px solid #28a745;
+
+}
+
+.danger{
+
+    border-top:6px solid #dc3545;
+
+}
+
+hr{
+
+    margin:25px 0;
+
+    border:none;
+
+    border-top:1px solid #ddd;
+
+}
+
+.door-panel{
+
+    background:#f8f9fa;
+
+    border:2px solid #dee2e6;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    margin-top:20px;
+
+}
+
+.door-status{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    margin-top:10px;
+
+}
+
+.open{
+
+    color:#28a745;
+
+}
+
+.closed{
+
+    color:#dc3545;
+
+}

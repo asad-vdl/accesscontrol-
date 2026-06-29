@@ -12,14 +12,12 @@ else:
     from . import simulation as driver
 
 
-
 def relay_on():
     driver.relay_on()
 
 
 def relay_off():
     driver.relay_off()
-
 
 
 def green_led_on():
@@ -30,14 +28,12 @@ def green_led_off():
     driver.green_led_off()
 
 
-
 def red_led_on():
     driver.red_led_on()
 
 
 def red_led_off():
     driver.red_led_off()
-
 
 
 def buzzer_success():
@@ -48,14 +44,12 @@ def buzzer_error():
     driver.buzzer_error()
 
 
-
 def door_open():
     driver.door_open()
 
 
 def door_close():
     driver.door_close()
-
 
 
 def grant_access():
@@ -85,7 +79,6 @@ def grant_access():
     print("System Ready\n")
 
 
-
 def deny_access():
 
     red_led_on()
@@ -99,3 +92,21 @@ def deny_access():
     red_led_off()
 
     print("System Ready\n")
+
+
+def manual_open():
+
+    relay_on()
+
+    door_open()
+
+    print("Manual Door Open")
+
+
+def manual_close():
+
+    relay_off()
+
+    door_close()
+
+    print("Manual Door Close")
