@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
@@ -32,6 +33,16 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/', [DashboardController::class, 'index'])
         ->name('dashboard');
+
+         // Access Terminal
+
+    Route::get('/access-terminal', function () {
+
+
+        return redirect('http://127.0.0.1:9000/');
+
+
+    })->name('access.terminal');
 
     Route::resource('users', UserController::class);
 

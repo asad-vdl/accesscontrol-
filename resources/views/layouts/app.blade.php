@@ -181,9 +181,15 @@
             Smart Access Control
         </h4>
 
+        <a href="{{ route('access.terminal') }}" class="btn">
+
+    🚪 Access Terminal
+
+</a>
+
         <span class="badge bg-primary fs-6">
             Admin Panel
-        </span>
+        </span>       
 
     </div>
 

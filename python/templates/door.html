@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Door Control</title>
+    <title>Smart Door Control</title>
 
     <link rel="stylesheet" href="/static/css/style.css">
 
@@ -15,48 +15,54 @@
 
     <div class="card">
 
-        <h1>🚪 Manual Door Control</h1>
+        <h1>🚪 Smart Door Control</h1>
 
-        <h2>Door Status</h2>
+        <div class="door-scene">
 
-        {% if door_status == "open" %}
+            <div class="door-frame">
 
-            <h1 class="open">
-                🔓 OPEN
-            </h1>
+                <div id="door" class="door">
 
-        {% else %}
+                    <div class="door-handle"></div>
 
-            <h1 class="closed">
-                🔒 CLOSED
-            </h1>
+                </div>
 
-        {% endif %}
+            </div>
+
+        </div>
 
         <br>
 
-        <form action="/door/open" method="post">
+        <h2 id="door-status">
+            🔒 CLOSED
+        </h2>
 
-            <button type="submit" class="btn">
-
-                🟢 OPEN DOOR
-
-            </button>
-
-        </form>
-
-
-        <form action="/door/close" method="post">
-
-            <button type="submit" class="btn">
-
-                🔴 CLOSE DOOR
-
-            </button>
-
-        </form>
+        <h3>
+            Relay :
+            <span id="relay-status">
+                🔴 OFF
+            </span>
+        </h3>
 
         <br>
+
+        <button
+            class="btn"
+            onclick="openDoor()">
+
+            🟢 OPEN DOOR
+
+        </button>
+
+        <button
+            class="btn"
+            onclick="closeDoor()">
+
+            🔴 CLOSE DOOR
+
+        </button>
+
+        <br><br>
 
         <a href="/" class="btn">
             ⬅ Back to Home
@@ -65,6 +71,8 @@
     </div>
 
 </div>
+
+<script src="/static/js/door.js"></script>
 
 </body>
 

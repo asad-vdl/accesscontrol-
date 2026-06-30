@@ -212,3 +212,28 @@ async def check_fingerprint(
             "result": result
         }
     )
+
+    # =========================
+# DOOR API (NO PAGE RELOAD)
+# =========================
+
+@app.post("/api/door/open")
+async def api_open_door():
+
+    manual_open()
+
+    return {
+        "status": "open",
+        "message": "Door Opened"
+    }
+
+
+@app.post("/api/door/close")
+async def api_close_door():
+
+    manual_close()
+
+    return {
+        "status": "closed",
+        "message": "Door Closed"
+    }

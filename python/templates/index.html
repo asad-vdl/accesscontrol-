@@ -3,6 +3,8 @@
 
 <head>
 
+    <meta charset="UTF-8">
+
     <title>Smart Access Control</title>
 
     <link rel="stylesheet" href="/static/css/style.css">
@@ -13,45 +15,193 @@
 
 <div class="container">
 
+    <header class="topbar">
+
+        <div class="logo">
+
+            🔐 Smart Access Control
+
+        </div>
+
+        <div class="status">
+
+            <span class="online-dot"></span>
+
+            System Online
+
+        </div>
+
+    </header>
+
     <div class="terminal-card">
 
-        <h1>
-            Smart Access Control
-        </h1>
+        <h1>🔐 Smart Access Control</h1>
 
         <p class="subtitle">
             Access Terminal
         </p>
 
+        <div class="info-bar">
 
-        <a href="/card" class="btn">
-            🪪 CARD ACCESS
-        </a>
+            <div class="info-box">
 
+                <h3>🖥 Terminal</h3>
 
-        <a href="/pin" class="btn">
-            🔑 PIN ACCESS
-        </a>
+                <p>Main Gate Reader</p>
 
+            </div>
 
-        <a href="/qr" class="btn">
-            📱 QR CODE ACCESS
-        </a>
+            <div class="info-box">
 
+                <h3>📡 Status</h3>
 
-        <a href="/fingerprint" class="btn">
-            👆 FINGERPRINT ACCESS
-        </a>
+                <p class="online">🟢 Online</p>
 
-        <a href="/door" class="btn">
-    🚪 MANUAL DOOR CONTROL
-</a>
+            </div>
 
+            <div class="info-box">
+
+                <h3>🔒 Security</h3>
+
+                <p>Access Control Active</p>
+
+            </div>
+
+        </div>
+
+        <div class="menu-grid">
+
+            <a href="/card" class="menu-card">
+
+                <div class="icon">🪪</div>
+
+                <span>Card Access</span>
+
+            </a>
+
+            <a href="/pin" class="menu-card">
+
+                <div class="icon">🔑</div>
+
+                <span>PIN Access</span>
+
+            </a>
+
+            <a href="/qr" class="menu-card">
+
+                <div class="icon">📱</div>
+
+                <span>QR Code</span>
+
+            </a>
+
+            <a href="/fingerprint" class="menu-card">
+
+                <div class="icon">👆</div>
+
+                <span>Fingerprint</span>
+
+            </a>
+
+            <a href="/door" class="menu-card full-width">
+
+                <div class="icon">🚪</div>
+
+                <span>Manual Door Control</span>
+
+            </a>
+
+        </div>
+
+        <!-- ==========================================
+             HARDWARE STATUS PANEL
+        =========================================== -->
+
+        <div class="hardware-panel">
+
+            <h2>⚙️ Hardware Status</h2>
+
+            <div class="hardware-grid">
+
+                <div class="hardware-item">
+
+                    <span>📖 Reader</span>
+
+                    <strong class="ready">
+
+                        READY
+
+                    </strong>
+
+                </div>
+
+                <div class="hardware-item">
+
+                    <span>🧲 Maglock</span>
+
+                    <strong class="locked">
+
+                        LOCKED
+
+                    </strong>
+
+                </div>
+
+                <div class="hardware-item">
+
+                    <span>⚡ Relay</span>
+
+                    <strong class="off">
+
+                        OFF
+
+                    </strong>
+
+                </div>
+
+                <div class="hardware-item">
+
+                    <span>🚪 Door</span>
+
+                    <strong class="closed">
+
+                        CLOSED
+
+                    </strong>
+
+                </div>
+
+                <div class="hardware-item">
+
+                    <span>🔔 Buzzer</span>
+
+                    <strong class="off">
+
+                        OFF
+
+                    </strong>
+
+                </div>
+
+                <div class="hardware-item">
+
+                    <span>🟢 System</span>
+
+                    <strong class="ready">
+
+                        ONLINE
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
-
 
 </body>
 

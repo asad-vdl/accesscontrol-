@@ -2,6 +2,42 @@
 
 @section('content')
 
+
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+        ⚡ Live Hardware Status (Real-Time)
+    </div>
+
+    <div class="card-body">
+
+        <div class="row text-center">
+
+            <div class="col-md-3">
+                <h6>🧲 Maglock</h6>
+                <h4 id="maglock_status" class="text-danger">LOADING...</h4>
+            </div>
+
+            <div class="col-md-3">
+                <h6>⚡ Relay</h6>
+                <h4 id="relay_status" class="text-secondary">LOADING...</h4>
+            </div>
+
+            <div class="col-md-3">
+                <h6>🚪 Door</h6>
+                <h4 id="door_status" class="text-primary">LOADING...</h4>
+            </div>
+
+            <div class="col-md-3">
+                <h6>🔔 Buzzer</h6>
+                <h4 id="buzzer_status" class="text-warning">LOADING...</h4>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
 
 
@@ -248,6 +284,100 @@
 
 </div>
 
+
 </div>
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-dark text-white">
+        🔥 Live Activity Feed
+    </div>
+
+    <div class="card-body">
+        <ul id="event_feed" class="list-group"></ul>
+    </div>
+</div>
+
+<script>
+
+async function loadHardwareStatus() {
+
+    try {
+
+        const response = await fetch("http://127.0.0.1:8001/hardware/status");
+        const data = await response.json();
+
+        const hw = data.hardware_status;
+
+        // Maglock
+        document.getElementById("maglock_status").innerText = hw.maglock;
+
+        // Relay
+        document.getElementById("relay_status").innerText = hw.relay;
+
+        // Door
+        document.getElementById("door_status").innerText = hw.door;
+
+        // Buzzer
+        document.getElementById("buzzer_status").innerText = hw.buzzer;
+
+        // Colors (dynamic)
+        document.getElementById("maglock_status").style.color =
+            hw.maglock === "LOCKED" ? "red" : "green";
+
+        document.getElementById("relay_status").style.color =
+            hw.relay === "ON" ? "green" : "gray";
+
+        document.getElementById("door_status").style.color =
+            hw.door === "OPEN" ? "green" : "blue";
+
+        document.getElementById("buzzer_status").style.color =
+            hw.buzzer === "OFF" ? "gray" : "orange";
+
+    } catch (error) {
+        console.log("Hardware API error:", error);
+    }
+}
+
+// auto refresh every 1 second
+setInterval(loadHardwareStatus, 1000);
+
+// initial load
+loadHardwareStatus();
+
+</script>
+
+<script>
+
+async function loadEvents() {
+
+    try {
+
+        const res = await fetch("http://127.0.0.1:8001/hardware/events");
+        const data = await res.json();
+
+        const feed = document.getElementById("event_feed");
+        feed.innerHTML = "";
+
+        data.events.forEach(ev => {
+
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+
+            li.innerHTML = `
+                <b>[${ev.time}]</b> ${ev.message}
+            `;
+
+            feed.appendChild(li);
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+setInterval(loadEvents, 1000);
+loadEvents();
+
+</script>
 
 @endsection
