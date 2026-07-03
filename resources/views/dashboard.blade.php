@@ -202,6 +202,10 @@
 
     </table>
 
+    <div class="mt-3">
+    {{ $recentLogs->links() }}
+</div>
+
 </div>
 
 </div>

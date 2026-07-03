@@ -10,12 +10,11 @@ class AccessLogController extends Controller
     public function index()
 {
     $logs = AccessLog::with([
-        'user',
-        'device'
-    ])
-    ->latest()
-    ->get();
-
+    'user',
+    'device'
+])
+->latest()
+->paginate(10);
     $totalLogs = AccessLog::count();
 
     $grantedLogs = AccessLog::where(

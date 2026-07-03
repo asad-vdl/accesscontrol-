@@ -53,13 +53,13 @@ $inactiveUsers = User::where(
             'denied'
         )->count();
 
-        $recentLogs = AccessLog::with([
+     $recentLogs = AccessLog::with([
     'user',
     'device'
-])
-->latest()
-->take(10)
-->get();
+        ])
+        ->latest()
+        ->paginate(10);
+
 $devices = Device::latest()
             ->take(10)
             ->get();
@@ -71,7 +71,7 @@ $devices = Device::latest()
     'onlineDevices',
     'offlineDevices',
     'activeUsers',
-'inactiveUsers',
+    'inactiveUsers',
     'totalCredentials',
     'todayAccessLogs',
     'grantedAccess',
