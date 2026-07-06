@@ -83,6 +83,11 @@
 
                     </option>
 
+                    <option value="qr"
+{{ $credential->credential_type == 'qr' ? 'selected' : '' }}>
+    QR Code
+</option>
+
                 </select>
 
             </div>

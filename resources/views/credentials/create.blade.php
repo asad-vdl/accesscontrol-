@@ -65,6 +65,10 @@
                         Face Recognition
                     </option>
 
+                    <option value="qr">
+    QR Code
+</option>
+
                 </select>
 
             </div>

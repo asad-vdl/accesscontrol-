@@ -191,7 +191,32 @@
 
 
         </div>
+<div class="col-12 mb-3">
 
+    <label class="form-label">
+        Assign Devices
+    </label>
+
+    <select name="device_ids[]" class="form-control" multiple>
+
+        @foreach($devices as $device)
+
+            <option
+                value="{{ $device->id }}"
+                {{ in_array($device->id, $assignedDevices) ? 'selected' : '' }}
+            >
+                {{ $device->name }}
+            </option>
+
+        @endforeach
+
+    </select>
+
+    <small class="text-muted">
+        Hold Ctrl (Windows) or Cmd (Mac) to select multiple devices.
+    </small>
+
+</div>
 
         <button type="submit"
                 class="btn btn-success">
