@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserDevicePermission;
 use App\Models\User;
-use App\Models\Device;
+use App\Models\UserDevicePermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -36,18 +35,17 @@ class UserController extends Controller
     /**
      * Show add user page
      */
-   public function create()
-{
-    $devices = Device::all();
-
-    return view('users.create', compact('devices'));
-}
+    public function create()
+    {
+        return view('users.create');
+    }
 
     /**
      * Save new user
      */
     public function store(Request $request)
     {
+
         $request->validate([
 
             'name' => 'required',
@@ -66,6 +64,7 @@ class UserController extends Controller
 
         ]);
 
+
         $photo = null;
 
         if ($request->hasFile('photo')) {
@@ -74,46 +73,47 @@ class UserController extends Controller
 
         }
 
+
         $user = User::create([
 
-    'name' => $request->name,
+            'name' => $request->name,
 
-    'email' => $request->email,
+            'email' => $request->email,
 
-    'phone' => $request->phone,
+            'phone' => $request->phone,
 
-    'employee_id' => $request->employee_id,
+            'employee_id' => $request->employee_id,
 
-    'photo' => $photo,
+            'photo' => $photo,
 
-    'password' => Hash::make($request->password),
+            'password' => Hash::make($request->password),
 
-    'role' => $request->role ?? 'admin',
+            'role' => $request->role ?? 'admin',
 
-    'status' => $request->status,
+            'status' => $request->status,
 
-]);
-if ($request->has('device_ids')) {
+        ]);
 
-    foreach ($request->device_ids as $deviceId) {
 
+        // Automatically assign Main Gate (Device ID = 1)
 
         UserDevicePermission::create([
 
             'user_id' => $user->id,
 
-            'device_id' => $deviceId,
+            'device_id' => 1,
 
             'access_allowed' => 1,
 
         ]);
-    }
-}
+
 
         return redirect()
             ->route('users.index')
             ->with('success', 'User Created Successfully');
+
     }
+
 
     /**
      * Show single user
@@ -123,28 +123,17 @@ if ($request->has('device_ids')) {
         return view('users.show', compact('user'));
     }
 
+
     /**
      * Edit user page
      */
     public function edit(User $user)
-{
-    $devices = Device::all();
+    {
+        return view('users.edit', compact('user'));
+    }
 
-    $assignedDevices = UserDevicePermission::where(
-        'user_id',
-        $user->id
-    )->pluck('device_id')->toArray();
 
-    return view(
-        'users.edit',
-        compact(
-            'user',
-            'devices',
-            'assignedDevices'
-        )
-    );
-}
-        /**
+    /**
      * Update user
      */
     public function update(Request $request, User $user)
@@ -196,36 +185,12 @@ if ($request->has('device_ids')) {
 
         ]);
 
-        UserDevicePermission::where(
-    'user_id',
-    $user->id
-)->delete();
-
-if ($request->has('device_ids')) {
-
-    foreach ($request->device_ids as $deviceId) {
-
-        UserDevicePermission::create([
-
-            'user_id' => $user->id,
-
-            'device_id' => $deviceId,
-
-            'access_allowed' => 1,
-
-        ]);
-
-    }
-
-}
-
 
         return redirect()
-                ->route('users.index')
-                ->with('success', 'User Updated Successfully');
+            ->route('users.index')
+            ->with('success', 'User Updated Successfully');
 
     }
-
 
 
     /**
@@ -240,11 +205,15 @@ if ($request->has('device_ids')) {
 
         }
 
+
+        UserDevicePermission::where('user_id', $user->id)->delete();
+
         $user->delete();
 
+
         return redirect()
-                ->route('users.index')
-                ->with('success', 'User Deleted Successfully');
+            ->route('users.index')
+            ->with('success', 'User Deleted Successfully');
 
     }
 
