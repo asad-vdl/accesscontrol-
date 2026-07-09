@@ -115,21 +115,28 @@
 
                 <form action="/fingerprint" method="post">
 
-                    <input type="text"
-                           name="fingerprint"
-                           class="form-control mb-3"
-                           placeholder="Enter Fingerprint ID"
-                           required>
+    <input
+        type="hidden"
+        name="device_code"
+        value="OFFICE_FP_001">
 
-                    <button class="btn btn-primary w-100">
+    <input
+        type="text"
+        name="fingerprint"
+        class="form-control mb-3"
+        placeholder="Enter Fingerprint ID"
+        autocomplete="off"
+        required>
 
-                        <i class="bi bi-fingerprint"></i>
+    <button class="btn btn-primary w-100">
 
-                        Check Fingerprint
+        <i class="bi bi-fingerprint"></i>
 
-                    </button>
+        Check Access
 
-                </form>
+    </button>
+
+</form>
 
                 <hr>
 

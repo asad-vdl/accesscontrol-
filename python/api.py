@@ -1,17 +1,39 @@
 import requests
-from config import API_URL, DEVICE_TOKEN, REQUEST_TIMEOUT
+
+from config import (
+    API_URL,
+    REQUEST_TIMEOUT
+)
 
 
-def check_access(credential_type, credential_value):
+def check_access(
+    credential_type,
+    credential_value,
+    device_code,
+    device_token
+):
 
     headers = {
-    "X-Device-Token": DEVICE_TOKEN
-}
+
+        "X-Device-Token": device_token,
+
+        "Accept": "application/json",
+
+        "Content-Type": "application/json"
+
+    }
+
 
     data = {
+
+        "device_code": device_code,
+
         "credential_type": credential_type,
+
         "credential_value": credential_value
+
     }
+
 
     try:
 
@@ -27,6 +49,9 @@ def check_access(credential_type, credential_value):
     except Exception as e:
 
         return {
+
             "status": "error",
+
             "message": str(e)
+
         }

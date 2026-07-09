@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 class CredentialController extends Controller
 {
 
-    public function index()
+   public function index()
 {
-    $credentials = Credential::with('user')
-                    ->latest()
-                    ->get();
+    $credentials = Credential::with([
+        'user.gates'
+    ])
+    ->latest()
+    ->get();
 
     $totalCredentials = Credential::count();
 

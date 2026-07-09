@@ -28,43 +28,34 @@ Add Device
 
 <div class="col-md-6 mb-3">
 
-
 <label>
-Device Name
+Select Gate
 </label>
 
 
-<input type="text"
-name="name"
-class="form-control">
+<select name="gate_id" class="form-control" required>
 
 
-</div>
-
-
+<option value="">
+-- Select Gate --
+</option>
 
 
 
-<div class="col-md-6 mb-3">
+@foreach($gates as $gate)
 
 
-<label>
-Device Type
-</label>
+<option value="{{ $gate->id }}">
+  {{ $gate->name }}
+    @if($gate->location)
+        - {{ $gate->location }}
+    @endif
+
+</option>
 
 
-<select name="type" class="form-control">
+@endforeach
 
-
-<option>RFID Reader</option>
-
-<option>Fingerprint</option>
-
-<option>Palm</option>
-
-<option>Face Recognition</option>
-
-<option>Keypad</option>
 
 
 </select>
@@ -81,16 +72,86 @@ Device Type
 
 
 <label>
+Device Name
+</label>
+
+
+<input type="text"
+name="name"
+class="form-control"
+required>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="col-md-6 mb-3">
+
+
+<label>
+Device Type
+</label>
+
+
+<select name="type" class="form-control" required>
+
+    <option value="RFID Reader">
+        RFID Reader
+    </option>
+
+    <option value="PIN Reader">
+        PIN Reader
+    </option>
+
+    <option value="Fingerprint Reader">
+        Fingerprint Reader
+    </option>
+
+    <option value="Palm Reader">
+        Palm Reader
+    </option>
+
+    <option value="Face Recognition">
+        Face Recognition
+    </option>
+
+    <option value="QR Reader">
+        QR Reader
+    </option>
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="col-md-6 mb-3">
+
+
+<label>
 Device Code
 </label>
 
 
 <input type="text"
 name="device_code"
-class="form-control">
+class="form-control"
+required>
 
 
 </div>
+
+
 
 
 
@@ -110,6 +171,8 @@ class="form-control">
 
 
 </div>
+
+
 
 
 

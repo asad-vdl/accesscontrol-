@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+use App\Models\UserGatePermission;
+use App\Models\Gate;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -47,4 +49,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(AccessLog::class);
     }
+
+    public function gatePermissions()
+{
+    return $this->hasMany(UserGatePermission::class);
+}
+
+
+
+public function gates()
+{
+    return $this->belongsToMany(
+        Gate::class,
+        'user_gate_permissions'
+    )
+    ->withPivot('access_allowed');
+}
 }

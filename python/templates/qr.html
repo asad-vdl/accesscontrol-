@@ -105,27 +105,28 @@
 
                 <form action="/qr" method="post">
 
-                    <label class="form-label fw-semibold">
+    <input
+        type="hidden"
+        name="device_code"
+        value="MAIN_GATE_QR_001">
 
-                        Enter QR Value
+    <input
+        type="text"
+        name="qr"
+        class="form-control mb-3"
+        placeholder="Enter QR Code"
+        autocomplete="off"
+        required>
 
-                    </label>
+    <button class="btn btn-primary w-100">
 
-                    <input type="text"
-                           name="qr"
-                           class="form-control input-box mb-3"
-                           placeholder="e.g. QR123456"
-                           required>
+        <i class="bi bi-qr-code-scan"></i>
 
-                    <button type="submit" class="btn btn-primary w-100">
+        Check Access
 
-                        <i class="bi bi-qr-code-scan"></i>
+    </button>
 
-                        CHECK QR
-
-                    </button>
-
-                </form>
+</form>
 
                 <hr>
 

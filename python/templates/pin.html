@@ -114,23 +114,29 @@
 
                 </div>
 
-                <form action="/pin" method="post">
+              <form action="/pin" method="post">
 
-                    <input type="password"
-                           name="pin"
-                           class="form-control mb-3"
-                           placeholder="Enter PIN"
-                           required>
+    <input
+        type="hidden"
+        name="device_code"
+        value="GATE2_PIN_001">
 
-                    <button class="btn btn-primary w-100">
+    <input
+        type="password"
+        name="pin"
+        class="form-control mb-3"
+        placeholder="Enter PIN"
+        required>
 
-                        <i class="bi bi-shield-lock-fill"></i>
+    <button class="btn btn-primary w-100">
 
-                        Check PIN
+        <i class="bi bi-shield-lock-fill"></i>
 
-                    </button>
+        Check PIN
 
-                </form>
+    </button>
+
+</form>
 
                 <hr>
 

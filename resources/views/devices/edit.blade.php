@@ -7,305 +7,382 @@
 <div class="card-box">
 
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
 
-        <h3>
-            Edit Device
-        </h3>
+<h3>
+Edit Device
+</h3>
 
 
-        <a href="{{ route('devices.index') }}" class="btn btn-secondary">
+<a href="{{ route('devices.index') }}" 
+class="btn btn-secondary">
 
-            Back
+Back
 
-        </a>
+</a>
 
 
-    </div>
+</div>
 
 
 
 
 
-    @if($errors->any())
+@if($errors->any())
 
-    <div class="alert alert-danger">
 
+<div class="alert alert-danger">
 
-        <ul>
+<ul>
 
-            @foreach($errors->all() as $error)
+@foreach($errors->all() as $error)
 
-            <li>
-                {{ $error }}
-            </li>
+<li>
+{{ $error }}
+</li>
 
-            @endforeach
+@endforeach
 
+</ul>
 
-        </ul>
 
+</div>
 
-    </div>
 
-    @endif
+@endif
 
 
 
 
 
-    <form action="{{ route('devices.update',$device->id) }}" method="POST">
 
+<form action="{{ route('devices.update',$device->id) }}" method="POST">
 
-        @csrf
 
-        @method('PUT')
+@csrf
 
+@method('PUT')
 
 
 
-        <div class="row">
+<div class="row">
 
 
 
 
 
-            <div class="col-md-6 mb-3">
 
+<div class="col-md-6 mb-3">
 
-                <label class="form-label">
 
-                    Device Name
+<label>
 
-                </label>
+Select Gate
 
+</label>
 
-                <input type="text"
-                       name="name"
-                       class="form-control"
-                       value="{{ $device->name }}">
 
 
-            </div>
+<select name="gate_id" class="form-control" required>
 
 
 
+@foreach($gates as $gate)
 
 
+<option value="{{ $gate->id }}"
 
 
-            <div class="col-md-6 mb-3">
+{{ $device->gate_id == $gate->id ? 'selected':'' }}>
 
 
-                <label class="form-label">
+{{ $gate->name }}
 
-                    Device Type
+-
 
-                </label>
+{{ $gate->location }}
 
 
 
-                <select name="type" class="form-control">
+</option>
 
 
+@endforeach
 
-                    <option value="RFID Reader"
-                    {{ $device->type == 'RFID Reader' ? 'selected':'' }}>
 
-                        RFID Reader
 
-                    </option>
+</select>
 
 
+</div>
 
 
-                    <option value="Fingerprint"
-                    {{ $device->type == 'Fingerprint' ? 'selected':'' }}>
 
-                        Fingerprint
 
-                    </option>
 
 
 
+<div class="col-md-6 mb-3">
 
 
-                    <option value="Palm"
-                    {{ $device->type == 'Palm' ? 'selected':'' }}>
+<label>
 
-                        Palm
+Device Name
 
-                    </option>
+</label>
 
 
 
+<input type="text"
 
+name="name"
 
-                    <option value="Face Recognition"
-                    {{ $device->type == 'Face Recognition' ? 'selected':'' }}>
+class="form-control"
 
-                        Face Recognition
+value="{{ $device->name }}"
 
-                    </option>
-
-
-
-
-
-                    <option value="Keypad"
-                    {{ $device->type == 'Keypad' ? 'selected':'' }}>
-
-                        Keypad
-
-                    </option>
-
-
-
-                </select>
-
-
-
-            </div>
-
-
-
-
-
-
-
-            <div class="col-md-6 mb-3">
-
-
-                <label class="form-label">
-
-                    Device Code
-
-                </label>
-
-
-                <input type="text"
-                       name="device_code"
-                       class="form-control"
-                       value="{{ $device->device_code }}">
-
-
-            </div>
-
-
-
-
-
-
-
-            <div class="col-md-6 mb-3">
-
-
-                <label class="form-label">
-
-                    IP Address
-
-                </label>
-
-
-                <input type="text"
-                       name="ip_address"
-                       class="form-control"
-                       value="{{ $device->ip_address }}">
-
-
-            </div>
-
-
-
-
-
-
-
-            <div class="col-md-6 mb-3">
-
-
-                <label class="form-label">
-
-                    Location
-
-                </label>
-
-
-                <input type="text"
-                       name="location"
-                       class="form-control"
-                       value="{{ $device->location }}">
-
-
-            </div>
-
-
-
-
-
-
-
-            <div class="col-md-6 mb-3">
-
-
-                <label class="form-label">
-
-                    Status
-
-                </label>
-
-
-                <select name="status" class="form-control">
-
-
-                    <option value="1"
-                    {{ $device->status == 1 ? 'selected':'' }}>
-
-                        Active
-
-                    </option>
-
-
-
-                    <option value="0"
-                    {{ $device->status == 0 ? 'selected':'' }}>
-
-                        Inactive
-
-                    </option>
-
-
-
-                </select>
-
-
-
-            </div>
-
-
-
-
-        </div>
-
-
-
-
-
-        <button type="submit" class="btn btn-success">
-
-            Update Device
-
-        </button>
-
-
-
-    </form>
+required>
 
 
 
 </div>
 
+
+
+
+
+
+
+
+<div class="col-md-6 mb-3">
+
+
+<label>
+
+Device Type
+
+</label>
+
+
+
+
+<select name="type" class="form-control">
+
+
+
+<option value="RFID Reader"
+{{ $device->type=='RFID Reader'?'selected':'' }}>
+
+RFID Reader
+
+</option>
+
+ <option value="PIN Reader" {{ $device->type=='PIN Reader' ? 'selected' : '' }}>
+        PIN Reader
+    </option>
+
+
+<option value="Fingerprint"
+{{ $device->type=='Fingerprint'?'selected':'' }}>
+
+Fingerprint
+
+</option>
+
+
+
+<option value="Palm"
+{{ $device->type=='Palm'?'selected':'' }}>
+
+Palm
+
+</option>
+
+
+
+<option value="Face Recognition"
+{{ $device->type=='Face Recognition'?'selected':'' }}>
+
+Face Recognition
+
+</option>
+
+
+
+<option value="Keypad"
+{{ $device->type=='Keypad'?'selected':'' }}>
+
+Keypad
+
+</option>
+
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="col-md-6 mb-3">
+
+
+<label>
+
+Device Code
+
+</label>
+
+
+
+<input type="text"
+
+name="device_code"
+
+class="form-control"
+
+value="{{ $device->device_code }}">
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="col-md-6 mb-3">
+
+
+<label>
+
+IP Address
+
+</label>
+
+
+
+<input type="text"
+
+name="ip_address"
+
+class="form-control"
+
+value="{{ $device->ip_address }}">
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="col-md-6 mb-3">
+
+
+<label>
+
+Location
+
+</label>
+
+
+
+<input type="text"
+
+name="location"
+
+class="form-control"
+
+value="{{ $device->location }}">
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="col-md-6 mb-3">
+
+
+<label>
+
+Status
+
+</label>
+
+
+
+<select name="status" class="form-control">
+
+
+
+<option value="1"
+
+{{ $device->status==1?'selected':'' }}>
+
+Active
+
+</option>
+
+
+
+<option value="0"
+
+{{ $device->status==0?'selected':'' }}>
+
+Inactive
+
+</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+<button class="btn btn-success">
+
+Update Device
+
+</button>
+
+
+
+
+</form>
+
+
+
+</div>
 
 
 @endsection

@@ -117,6 +117,8 @@
 
                             <th>Credential Value</th>
 
+                            <th>Allowed Gates</th>
+
                             <th>Status</th>
 
                             <th width="180">
@@ -160,8 +162,48 @@
                                 </code>
 
                             </td>
+                        <td>
 
-                            <td>
+                        @if($credential->user && $credential->user->gates->count())
+
+                            @foreach($credential->user->gates as $gate)
+
+                                @if($gate->pivot->access_allowed)
+
+                                    <span class="badge bg-white text-success mb-1 me-2 px-2 py-2">
+
+                                        <i class="bi bi-check-circle-fill"></i>
+
+                                        {{ $gate->name }}
+
+                                    </span>
+
+                                @else
+
+                                    <span class="badge bg-white text-danger mb-1 me-2 px-2 py-2">
+
+                                        <i class="bi bi-x-circle-fill"></i>
+
+                                        {{ $gate->name }}
+
+                                    </span>
+
+                                @endif
+
+                            @endforeach
+
+                        @else
+
+                            <span class="badge bg-white text-secondary">
+
+                                No Gate Assigned
+
+                            </span>
+
+                        @endif
+
+                        </td>
+                        <td>
 
                                 @if($credential->status)
 

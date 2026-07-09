@@ -1,3 +1,6 @@
+import requests
+
+LARAVEL_URL = "http://127.0.0.1:8000"
 from access import process_access
 
 from fastapi import FastAPI, Request, Form
@@ -6,6 +9,20 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from hardware.hardware import manual_open, manual_close
+
+def get_device_token(device_code):
+
+    try:
+
+        response = requests.get(
+            f"{LARAVEL_URL}/api/device/token/{device_code}"
+        )
+
+        return response.json()
+
+    except Exception:
+
+        return None
 
 
 app = FastAPI(
@@ -137,31 +154,62 @@ async def fingerprint(request: Request):
 @app.post("/card", response_class=HTMLResponse)
 async def check_card(
     request: Request,
+    device_code: str = Form(...),
     uid: str = Form(...)
 ):
 
-    result = process_access("card", uid)
+    device = get_device_token(device_code)
+
+    if not device:
+
+        result = {
+            "status": "error",
+            "message": "Device not found"
+        }
+
+    else:
+
+        result = process_access(
+            "card",
+            uid,
+            device_code,
+            device["api_token"]
+        )
 
     return templates.TemplateResponse(
         request=request,
         name="result.html",
-        context={
-            "result": result
-        }
+        context={"result": result}
     )
 
 
 # =========================
 # PIN CHECK
 # =========================
-
 @app.post("/pin", response_class=HTMLResponse)
 async def check_pin(
     request: Request,
+    device_code: str = Form(...),
     pin: str = Form(...)
 ):
 
-    result = process_access("pin", pin)
+    device = get_device_token(device_code)
+
+    if not device:
+
+        result = {
+            "status": "error",
+            "message": "Device not found"
+        }
+
+    else:
+
+        result = process_access(
+            "pin",
+            pin,
+            device_code,
+            device["api_token"]
+        )
 
     return templates.TemplateResponse(
         request=request,
@@ -170,7 +218,6 @@ async def check_pin(
             "result": result
         }
     )
-
 
 # =========================
 # QR CHECK
@@ -179,10 +226,27 @@ async def check_pin(
 @app.post("/qr", response_class=HTMLResponse)
 async def check_qr(
     request: Request,
+    device_code: str = Form(...),
     qr: str = Form(...)
 ):
 
-    result = process_access("qr", qr)
+    device = get_device_token(device_code)
+
+    if not device:
+
+        result = {
+            "status": "error",
+            "message": "Device not found"
+        }
+
+    else:
+
+        result = process_access(
+            "qr",
+            qr,
+            device_code,
+            device["api_token"]
+        )
 
     return templates.TemplateResponse(
         request=request,
@@ -191,8 +255,6 @@ async def check_qr(
             "result": result
         }
     )
-
-
 # =========================
 # FINGERPRINT CHECK
 # =========================
@@ -200,10 +262,27 @@ async def check_qr(
 @app.post("/fingerprint", response_class=HTMLResponse)
 async def check_fingerprint(
     request: Request,
+    device_code: str = Form(...),
     fingerprint: str = Form(...)
 ):
 
-    result = process_access("fingerprint", fingerprint)
+    device = get_device_token(device_code)
+
+    if not device:
+
+        result = {
+            "status": "error",
+            "message": "Device not found"
+        }
+
+    else:
+
+        result = process_access(
+            "fingerprint",
+            fingerprint,
+            device_code,
+            device["api_token"]
+        )
 
     return templates.TemplateResponse(
         request=request,
@@ -212,7 +291,6 @@ async def check_fingerprint(
             "result": result
         }
     )
-
     # =========================
 # DOOR API (NO PAGE RELOAD)
 # =========================

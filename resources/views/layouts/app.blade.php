@@ -101,6 +101,18 @@
             color:#6c757d;
         }
 
+        .sidebar .nav-link.active{
+
+    background:#2563eb;
+
+    color:#fff;
+
+    transform:translateX(4px);
+
+    box-shadow:0 5px 15px rgba(37,99,235,.3);
+
+}
+
     </style>
 
 </head>
@@ -117,35 +129,42 @@
     <ul class="nav flex-column mt-3">
 
         <li class="nav-item">
-            <a class="nav-link" href="/">
+            <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">
                 <i class="bi bi-speedometer2"></i>
                 Dashboard
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/users">
+            <a class="nav-link {{ request()->is('users*') ? 'active' : '' }}" href="/users">
                 <i class="bi bi-people-fill"></i>
                 Users
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/devices">
+           <a class="nav-link {{ request()->is('devices*') ? 'active' : '' }}" href="/devices">
                 <i class="bi bi-cpu-fill"></i>
                 Devices
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/credentials">
+    <a class="nav-link {{ request()->is('gates*') ? 'active' : '' }}" href="/gates">
+        <i class="bi bi-door-open-fill"></i>
+        Gates
+    </a>
+</li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ request()->is('credentials*') ? 'active' : '' }}" href="/credentials">
                 <i class="bi bi-credit-card-2-front-fill"></i>
                 Credentials
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/access-logs">
+            <a class="nav-link {{ request()->is('access-logs*') ? 'active' : '' }}" href="/access-logs">
                 <i class="bi bi-clock-history"></i>
                 Access Logs
             </a>

@@ -113,24 +113,30 @@
 
                 </div>
 
-                <form action="/card" method="post">
+               <form action="/card" method="post">
 
-                    <input type="text"
-                           name="uid"
-                           class="form-control mb-3"
-                           placeholder="Enter Card UID"
-                           autocomplete="off"
-                           required>
+    <input
+        type="hidden"
+        name="device_code"
+        value="MAIN_GATE_001">
 
-                    <button class="btn btn-primary w-100">
+    <input
+        type="text"
+        name="uid"
+        class="form-control mb-3"
+        placeholder="Enter Card UID"
+        autocomplete="off"
+        required>
 
-                        <i class="bi bi-check-circle-fill"></i>
+    <button class="btn btn-primary w-100">
 
-                        Check Access
+        <i class="bi bi-check-circle-fill"></i>
 
-                    </button>
+        Check Access
 
-                </form>
+    </button>
+
+</form>
 
                 <hr>
 

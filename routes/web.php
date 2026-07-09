@@ -9,6 +9,8 @@ use App\Http\Controllers\CredentialController;
 use App\Http\Controllers\AccessLogController;
 use App\Http\Controllers\LoginController;
 
+use App\Http\Controllers\GateController;
+
 /*
 |--------------------------------------------------------------------------
 | Login Routes
@@ -53,5 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/access-logs',
         [AccessLogController::class, 'index'])
         ->name('access.logs');
+
+        Route::resource('gates', App\Http\Controllers\GateController::class);
+        Route::resource('gates', GateController::class);
 
 });

@@ -192,6 +192,96 @@
 
         </div>
 
+        <div class="col-md-12 mb-3">
+
+<label class="form-label">
+
+Assign Gate Permissions
+
+</label>
+
+
+
+<div class="row">
+
+
+
+@foreach($gates as $gate)
+
+
+
+<div class="col-md-4 mb-2">
+
+
+
+<div class="form-check">
+
+
+
+<input
+
+class="form-check-input"
+
+type="checkbox"
+
+name="gate_ids[]"
+
+value="{{ $gate->id }}"
+
+id="gate{{ $gate->id }}"
+
+{{ in_array($gate->id,$assignedGates) ? 'checked':'' }}>
+
+
+
+
+<label
+
+class="form-check-label"
+
+for="gate{{ $gate->id }}">
+
+
+
+{{ $gate->name }}
+
+
+
+@if($gate->location)
+
+
+<small class="text-muted">
+
+({{ $gate->location }})
+
+</small>
+
+
+@endif
+
+
+
+</label>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+@endforeach
+
+
+
+</div>
+
+
+</div>
+
         <button type="submit"
                 class="btn btn-success">
 

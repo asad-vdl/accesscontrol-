@@ -2,34 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+
 use App\Http\Controllers\Controller;
-use App\Models\Device;
 use Illuminate\Http\Request;
+
 
 
 class DeviceHeartbeatController extends Controller
 {
 
+
     public function heartbeat(Request $request)
     {
 
-        $request->validate([
 
-            'device_code' => 'required'
 
-        ]);
+        $device = $request->device;
 
 
 
-        // Find Device
-        $device = Device::where(
-            'device_code',
-            $request->device_code
-        )->first();
-
-
-
-        // Device not found
         if(!$device)
         {
 
@@ -37,39 +28,72 @@ class DeviceHeartbeatController extends Controller
 
                 'status'=>'error',
 
-                'message'=>'Device Not Found'
+                'message'=>'Device Authentication Failed'
 
-            ],404);
+            ],401);
+
 
         }
 
 
 
-        // Update heartbeat time
+
+
+
+
         $device->update([
 
-    'last_seen' => now(),
 
-    'online_status' => 1
+            'last_seen'=>now(),
 
-]);
+
+            'online_status'=>1
+
+
+        ]);
+
+
+
+
+
 
         $device->refresh();
 
 
 
+
+
+
+
         return response()->json([
+
 
             'status'=>'online',
 
+
             'message'=>'Heartbeat Updated',
+
 
             'device'=>$device->name,
 
+
+            'device_code'=>$device->device_code,
+
+
+            'gate'=>$device->gate ? $device->gate->name : null,
+
+
             'last_seen'=>$device->last_seen
+
+
 
         ]);
 
+
+
+
     }
+
+
 
 }

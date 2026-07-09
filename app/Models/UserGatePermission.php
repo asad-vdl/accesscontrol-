@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Credential extends Model
+class UserGatePermission extends Model
 {
-
     protected $fillable = [
 
         'user_id',
-        'credential_type',
-        'credential_value',
-        'status',
-        'notes',
+
+        'gate_id',
+
+        'access_allowed',
 
     ];
 
@@ -22,7 +21,7 @@ class Credential extends Model
     {
         return [
 
-            'status' => 'boolean',
+            'access_allowed' => 'boolean',
 
         ];
     }
@@ -31,6 +30,12 @@ class Credential extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+
+    public function gate()
+    {
+        return $this->belongsTo(Gate::class);
     }
 
 }

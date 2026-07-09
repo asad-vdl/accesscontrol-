@@ -48,65 +48,50 @@ def deny_hardware_access():
 
 
 
-def process_access(credential_type, credential_value):
-
+def process_access(
+    credential_type,
+    credential_value,
+    device_code,
+    device_token
+):
 
     result = check_access(
         credential_type,
-        credential_value
+        credential_value,
+        device_code,
+        device_token
     )
-
 
     print(result)
 
-
-
     if result.get("status") == "granted":
-
 
         user = result.get("user_name")
 
-
         message = f"Welcome {user}"
-
 
         print(message)
 
-
         speak(message)
-
 
         hardware_result = grant_hardware_access()
 
-
         print(hardware_result)
-
-
 
     elif result.get("status") == "denied":
 
-
         print("Access Denied")
-
 
         speak("You are not authorized")
 
-
         hardware_result = deny_hardware_access()
-
 
         print(hardware_result)
 
-
-
     else:
-
 
         print(result.get("message"))
 
-
         speak("System error")
-
-
 
     return result
