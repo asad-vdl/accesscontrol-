@@ -1,68 +1,41 @@
+import threading
 import requests
 
 from api import check_access
 from voice import speak
 
-
 HARDWARE_API = "http://127.0.0.1:8001"
 
 
-
 def grant_hardware_access():
-
     try:
-
         response = requests.post(
             f"{HARDWARE_API}/hardware/grant"
         )
-
         return response.json()
 
-
     except Exception as e:
-
         return {
             "status": "error",
             "message": str(e)
         }
-
 
 
 def deny_hardware_access():
-
     try:
-
         response = requests.post(
             f"{HARDWARE_API}/hardware/deny"
         )
-
         return response.json()
 
-
     except Exception as e:
-
         return {
             "status": "error",
             "message": str(e)
         }
 
 
-
-def process_access(
-    credential_type,
-    credential_value,
-    device_code,
-    device_token
-):
-
-    result = check_access(
-        credential_type,
-        credential_value,
-        device_code,
-        device_token
-    )
-
-    print(result)
+def hardware_worker(result):
 
     if result.get("status") == "granted":
 
@@ -92,6 +65,29 @@ def process_access(
 
         print(result.get("message"))
 
-        speak("System error")
+        speak("System Error")
+
+
+def process_access(
+    credential_type,
+    credential_value,
+    device_code,
+    device_token
+):
+
+    result = check_access(
+        credential_type,
+        credential_value,
+        device_code,
+        device_token
+    )
+
+    print(result)
+
+    threading.Thread(
+        target=hardware_worker,
+        args=(result,),
+        daemon=True
+    ).start()
 
     return result
