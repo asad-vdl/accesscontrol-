@@ -206,9 +206,47 @@
 
 </a>
 
-        <span class="badge bg-primary fs-6">
-            Admin Panel
-        </span>       
+      <a href="{{ route('profile.edit') }}"
+   class="btn btn-light d-flex align-items-center gap-2 border shadow-sm">
+
+    @if(auth()->user()->photo)
+
+        <img
+            src="{{ asset('storage/' . auth()->user()->photo) }}"
+            alt="Profile"
+            width="38"
+            height="38"
+            class="rounded-circle"
+            style="object-fit: cover;">
+
+    @else
+
+        <img
+            src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0D6EFD&color=fff"
+            alt="Profile"
+            width="38"
+            height="38"
+            class="rounded-circle">
+
+    @endif
+
+    <div class="text-start">
+
+        <div class="fw-bold text-dark">
+
+            {{ auth()->user()->name }}
+
+        </div>
+
+        <small class="text-muted">
+
+            {{ ucfirst(auth()->user()->role) }}
+
+        </small>
+
+    </div>
+
+</a>
 
     </div>
 
@@ -230,4 +268,4 @@
 
 </body>
 </html>
-```
+

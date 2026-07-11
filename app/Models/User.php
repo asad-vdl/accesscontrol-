@@ -3,6 +3,7 @@
 namespace App\Models;
 use App\Models\UserGatePermission;
 use App\Models\Gate;
+use App\Models\UserAccessSchedule;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -64,5 +65,10 @@ public function gates()
         'user_gate_permissions'
     )
     ->withPivot('access_allowed');
+}
+
+public function accessSchedule()
+{
+    return $this->hasOne(UserAccessSchedule::class);
 }
 }

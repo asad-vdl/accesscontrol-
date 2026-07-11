@@ -8,6 +8,7 @@ use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\CredentialController;
 use App\Http\Controllers\AccessLogController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\GateController;
 
@@ -56,7 +57,19 @@ Route::middleware('auth')->group(function () {
         [AccessLogController::class, 'index'])
         ->name('access.logs');
 
-        Route::resource('gates', App\Http\Controllers\GateController::class);
+       // Route::resource('gates', App\Http\Controllers\GateController::class);
         Route::resource('gates', GateController::class);
+
+        /*
+|--------------------------------------------------------------------------
+| Profile
+|--------------------------------------------------------------------------
+*/
+
+  Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::put('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
 
 });

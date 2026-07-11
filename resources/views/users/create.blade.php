@@ -263,6 +263,143 @@
 
 </div>
 
+<hr>
+
+<h5 class="mb-3">
+
+    <i class="bi bi-calendar-week"></i>
+
+    Access Schedule
+
+</h5>
+
+<div class="row">
+
+    <div class="col-md-12 mb-3">
+
+        @foreach([
+            'monday'=>'Monday',
+            'tuesday'=>'Tuesday',
+            'wednesday'=>'Wednesday',
+            'thursday'=>'Thursday',
+            'friday'=>'Friday',
+            'saturday'=>'Saturday',
+            'sunday'=>'Sunday'
+        ] as $day=>$label)
+
+            <div class="form-check form-check-inline">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="{{ $day }}"
+                    value="1"
+                    {{ $defaultSchedule[$day] ? 'checked' : '' }}>
+
+                <label class="form-check-label">
+
+                    {{ $label }}
+
+                </label>
+
+            </div>
+
+        @endforeach
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <label class="form-label">
+
+            Start Time
+
+        </label>
+
+        <input
+            type="time"
+            name="start_time"
+            class="form-control"
+            value="{{ $defaultSchedule['start_time'] }}">
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <label class="form-label">
+
+            End Time
+
+        </label>
+
+        <input
+            type="time"
+            name="end_time"
+            class="form-control"
+            value="{{ $defaultSchedule['end_time'] }}">
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <label class="form-label">
+
+            Valid From
+
+        </label>
+
+        <input
+            type="date"
+            name="valid_from"
+            class="form-control">
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <label class="form-label">
+
+            Valid To
+
+        </label>
+
+        <input
+            type="date"
+            name="valid_to"
+            class="form-control">
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <label class="form-label">
+
+            Schedule Status
+
+        </label>
+
+        <select
+            name="schedule_status"
+            class="form-select">
+
+            <option value="1" selected>
+
+                Active
+
+            </option>
+
+            <option value="0">
+
+                Inactive
+
+            </option>
+
+        </select>
+
+    </div>
+
+</div>
+
         <button type="submit" class="btn btn-primary">
 
             Save User

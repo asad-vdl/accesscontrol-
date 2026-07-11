@@ -12,10 +12,10 @@ class CredentialController extends Controller
    public function index()
 {
     $credentials = Credential::with([
-        'user.gates'
-    ])
-    ->latest()
-    ->get();
+    'user.gates.devices'
+])
+->latest()
+->get();
 
     $totalCredentials = Credential::count();
 

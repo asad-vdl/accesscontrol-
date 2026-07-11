@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\AccessLog;
 use App\Models\Credential;
 use App\Models\UserGatePermission;
+use App\Models\UserAccessSchedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AccessController extends Controller
@@ -123,6 +125,204 @@ class AccessController extends Controller
                 'message' => 'Access Not Allowed For This Gate',
             ]);
         }
+
+        /*
+|--------------------------------------------------------------------------
+| Access Schedule Check
+|--------------------------------------------------------------------------
+*/
+
+$schedule = UserAccessSchedule::where(
+
+    'user_id',
+    $user->id
+
+)->where(
+
+    'status',
+    1
+
+)->first();
+
+if (!$schedule) {
+
+    AccessLog::create([
+
+        'user_id' => $user->id,
+
+        'device_id' => $device->id,
+
+        'credential_type' => $request->credential_type,
+
+        'credential_value' => $request->credential_value,
+
+        'access_status' => 'denied',
+
+        'remarks' => 'Access Schedule Not Found',
+
+    ]);
+
+    return response()->json([
+
+        'status' => 'denied',
+
+        'message' => 'No Access Schedule Assigned',
+
+    ]);
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Check Valid Date
+|--------------------------------------------------------------------------
+*/
+
+$today = Carbon::today();
+
+if (
+
+    $schedule->valid_from &&
+    $today->lt($schedule->valid_from)
+
+) {
+
+    AccessLog::create([
+
+        'user_id' => $user->id,
+
+        'device_id' => $device->id,
+
+        'credential_type' => $request->credential_type,
+
+        'credential_value' => $request->credential_value,
+
+        'access_status' => 'denied',
+
+        'remarks' => 'Schedule Not Started',
+
+    ]);
+
+    return response()->json([
+
+        'status' => 'denied',
+
+        'message' => 'Access Schedule Not Started',
+
+    ]);
+
+}
+
+if (
+
+    $schedule->valid_to &&
+    $today->gt($schedule->valid_to)
+
+) {
+
+    AccessLog::create([
+
+        'user_id' => $user->id,
+
+        'device_id' => $device->id,
+
+        'credential_type' => $request->credential_type,
+
+        'credential_value' => $request->credential_value,
+
+        'access_status' => 'denied',
+
+        'remarks' => 'Schedule Expired',
+
+    ]);
+
+    return response()->json([
+
+        'status' => 'denied',
+
+        'message' => 'Access Schedule Expired',
+
+    ]);
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Check Day
+|--------------------------------------------------------------------------
+*/
+
+$day = strtolower(now()->format('l'));
+
+if (!$schedule->$day) {
+
+    AccessLog::create([
+
+        'user_id' => $user->id,
+
+        'device_id' => $device->id,
+
+        'credential_type' => $request->credential_type,
+
+        'credential_value' => $request->credential_value,
+
+        'access_status' => 'denied',
+
+        'remarks' => 'Today Not Allowed',
+
+    ]);
+
+    return response()->json([
+
+        'status' => 'denied',
+
+        'message' => 'Access Not Allowed Today',
+
+    ]);
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Check Time
+|--------------------------------------------------------------------------
+*/
+
+$currentTime = now()->format('H:i:s');
+
+if (
+
+    $currentTime < $schedule->start_time ||
+
+    $currentTime > $schedule->end_time
+
+) {
+
+    AccessLog::create([
+
+        'user_id' => $user->id,
+
+        'device_id' => $device->id,
+
+        'credential_type' => $request->credential_type,
+
+        'credential_value' => $request->credential_value,
+
+        'access_status' => 'denied',
+
+        'remarks' => 'Outside Allowed Time',
+
+    ]);
+
+    return response()->json([
+
+        'status' => 'denied',
+
+        'message' => 'Outside Allowed Time',
+
+    ]);
+
+}
 
         /*
         |--------------------------------------------------------------------------

@@ -164,45 +164,65 @@
                             </td>
                         <td>
 
-                        @if($credential->user && $credential->user->gates->count())
+@if($credential->user && $credential->user->gates->count())
 
-                            @foreach($credential->user->gates as $gate)
+    @foreach($credential->user->gates as $gate)
 
-                                @if($gate->pivot->access_allowed)
+        <div class="mb-2">
 
-                                    <span class="badge bg-white text-success mb-1 me-2 px-2 py-2">
+            <span class="badge bg-white text-success border mb-1 me-2 px-2 py-2">
 
-                                        <i class="bi bi-check-circle-fill"></i>
+                <i class="bi bi-door-open-fill"></i>
 
-                                        {{ $gate->name }}
+                {{ $gate->name }}
 
-                                    </span>
+            </span>
 
-                                @else
+            @if($gate->devices->count())
 
-                                    <span class="badge bg-white text-danger mb-1 me-2 px-2 py-2">
+                <div class="ms-3 mt-1">
 
-                                        <i class="bi bi-x-circle-fill"></i>
+                    @foreach($gate->devices as $device)
 
-                                        {{ $gate->name }}
+                        <div class="text-muted small mb-1">
 
-                                    </span>
+                            <i class="bi bi-cpu-fill text-primary"></i>
 
-                                @endif
+                            {{ $device->name }}
 
-                            @endforeach
+                        </div>
 
-                        @else
+                    @endforeach
 
-                            <span class="badge bg-white text-secondary">
+                </div>
 
-                                No Gate Assigned
+            @else
 
-                            </span>
+                <div class="text-danger small ms-3">
 
-                        @endif
+                    <i class="bi bi-exclamation-circle-fill"></i>
 
-                        </td>
+                    No Device Assigned
+
+                </div>
+
+            @endif
+
+        </div>
+
+    @endforeach
+
+@else
+
+    <span class="badge bg-white text-secondary border">
+
+        No Gate Assigned
+
+    </span>
+
+@endif
+
+</td>
                         <td>
 
                                 @if($credential->status)

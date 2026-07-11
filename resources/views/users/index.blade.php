@@ -119,6 +119,8 @@
 
                             <th>Employee ID</th>
 
+                            <th>Assigned Access</th>
+
                             <th>Status</th>
 
                             <th width="180">
@@ -184,6 +186,64 @@
 
                             </td>
 
+                        <td>
+
+    @forelse($user->gates as $gate)
+
+        <div class="mb-2">
+
+            <span class="badge bg-white text-success border mb-1 me-2 px-2 py-2">
+
+                <i class="bi bi-door-open-fill"></i>
+
+                {{ $gate->name }}
+
+            </span>
+
+            @if($gate->devices->count())
+
+                <div class="ms-3 mt-1">
+
+                    @foreach($gate->devices as $device)
+
+                        <div class="text-muted small mb-1">
+
+                            <i class="bi bi-cpu-fill text-primary"></i>
+
+                            {{ $device->name }}
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+            @else
+
+                <div class="text-danger small ms-3">
+
+                    <i class="bi bi-exclamation-circle-fill"></i>
+
+                    No Device Assigned
+
+                </div>
+
+            @endif
+
+        </div>
+
+    @empty
+
+        <span class="badge bg-white text-secondary border">
+
+            No Gate Assigned
+
+        </span>
+
+    @endforelse
+
+</td>
+
                             <td>
 
                                 @if($user->status)
@@ -237,7 +297,7 @@
 
                         <tr>
 
-                            <td colspan="8" class="text-center py-4">
+                            <td colspan="9" class="text-center py-4">
 
                                 No Users Found
 

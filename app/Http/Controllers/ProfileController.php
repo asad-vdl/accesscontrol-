@@ -2,59 +2,156 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Show Profile Page
      */
-    public function edit(Request $request): View
+    public function edit()
     {
         return view('profile.edit', [
-            'user' => $request->user(),
+
+            'user' => Auth::user()
+
         ]);
     }
 
     /**
-     * Update the user's profile information.
+     * Update Profile
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $request->validate([
+
+            'name' => 'required|string|max:255',
+
+            'email' => 'required|email|unique:users,email,' . $user->id,
+
+            'phone' => 'nullable|string|max:30',
+
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+
+            'current_password' => 'nullable|required_with:password',
+
+            'password' => 'nullable|min:6|confirmed',
+
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Upload Photo
+        |--------------------------------------------------------------------------
+        */
+
+        $photo = $user->photo;
+
+        if ($request->hasFile('photo')) {
+
+            if (
+
+                $user->photo &&
+
+                Storage::disk('public')->exists($user->photo)
+
+            ) {
+
+                Storage::disk('public')->delete($user->photo);
+
+            }
+
+            $photo = $request->file('photo')
+                ->store('users', 'public');
         }
 
-        $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
+        /*
+        |--------------------------------------------------------------------------
+        | Update Basic Information
+        |--------------------------------------------------------------------------
+        */
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        $data = [
 
-        $user = $request->user();
+            'name' => $request->name,
 
-        Auth::logout();
+            'email' => $request->email,
 
-        $user->delete();
+            'phone' => $request->phone,
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            'photo' => $photo,
 
-        return Redirect::to('/');
+        ];
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Password (Optional)
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('password')) {
+
+            if (
+
+                !Hash::check(
+
+                    $request->current_password,
+
+                    $user->password
+
+                )
+
+            ) {
+
+                return back()
+
+                    ->withErrors([
+
+                        'current_password' => 'Current password is incorrect.'
+
+                    ])
+
+                    ->withInput();
+
+            }
+
+            $data['password'] = Hash::make(
+
+                $request->password
+
+            );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Save
+        |--------------------------------------------------------------------------
+        */
+
+        $user->update($data);
+
+
+        return redirect()
+
+            ->route('profile.edit')
+
+            ->with(
+
+                'success',
+
+                'Profile Updated Successfully.'
+
+            );
+
     }
 }

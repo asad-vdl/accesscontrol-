@@ -9,6 +9,7 @@ use App\Models\UserGatePermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Models\UserAccessSchedule;
 
 
 
@@ -19,7 +20,9 @@ class UserController extends Controller
     public function index()
     {
 
-        $users = User::latest()->get();
+       $users = User::with('gates.devices')
+            ->latest()
+            ->get();
 
 
         $totalUsers = User::count();
@@ -54,7 +57,35 @@ class UserController extends Controller
         ->orderBy('name')
         ->get();
 
-    return view('users.create', compact('gates'));
+        $defaultSchedule = [
+
+    'monday' => true,
+    'tuesday' => true,
+    'wednesday' => true,
+    'thursday' => true,
+    'friday' => true,
+    'saturday' => false,
+    'sunday' => false,
+
+    'start_time' => '08:00',
+
+    'end_time' => '18:00',
+
+    'valid_from' => null,
+
+    'valid_to' => null,
+
+    'status' => true,
+
+];
+
+    return view('users.create', compact(
+
+    'gates',
+
+    'defaultSchedule'
+
+));
 }
 
 
@@ -177,7 +208,37 @@ class UserController extends Controller
         }
 
 
+// Access Schedule
 
+UserAccessSchedule::create([
+
+    'user_id' => $user->id,
+
+    'monday' => $request->has('monday'),
+
+    'tuesday' => $request->has('tuesday'),
+
+    'wednesday' => $request->has('wednesday'),
+
+    'thursday' => $request->has('thursday'),
+
+    'friday' => $request->has('friday'),
+
+    'saturday' => $request->has('saturday'),
+
+    'sunday' => $request->has('sunday'),
+
+    'start_time' => $request->start_time,
+
+    'end_time' => $request->end_time,
+
+    'valid_from' => $request->valid_from,
+
+    'valid_to' => $request->valid_to,
+
+    'status' => $request->schedule_status ?? 1,
+
+]);
 
 
 
@@ -226,10 +287,25 @@ class UserController extends Controller
         ->pluck('gate_id')
         ->toArray();
 
+        $schedule = UserAccessSchedule::firstOrCreate(
+
+    ['user_id' => $user->id],
+
+    [
+
+        'start_time' => '08:00:00',
+
+        'end_time' => '18:00:00',
+
+    ]
+
+);
+
     return view('users.edit', compact(
         'user',
         'gates',
-        'assignedGates'
+        'assignedGates',
+        'schedule',
     ));
 }
 
@@ -250,7 +326,7 @@ class UserController extends Controller
             'name'=>'required',
 
 
-            'email'=>'required|email',
+            'email' => 'required|email|unique:users,email,' . $user->id,
 
 
             'role'=>'required',
@@ -377,7 +453,45 @@ class UserController extends Controller
 
 
 
+// Update Access Schedule
 
+UserAccessSchedule::updateOrCreate(
+
+    [
+
+        'user_id' => $user->id
+
+    ],
+
+    [
+
+        'monday' => $request->has('monday'),
+
+        'tuesday' => $request->has('tuesday'),
+
+        'wednesday' => $request->has('wednesday'),
+
+        'thursday' => $request->has('thursday'),
+
+        'friday' => $request->has('friday'),
+
+        'saturday' => $request->has('saturday'),
+
+        'sunday' => $request->has('sunday'),
+
+        'start_time' => $request->start_time,
+
+        'end_time' => $request->end_time,
+
+        'valid_from' => $request->valid_from,
+
+        'valid_to' => $request->valid_to,
+
+        'status' => $request->schedule_status ?? 1,
+
+    ]
+
+);
 
 
 
@@ -421,6 +535,9 @@ class UserController extends Controller
 
         UserGatePermission::where('user_id',$user->id)
                 ->delete();
+
+                UserAccessSchedule::where('user_id', $user->id)
+    ->delete();
 
 
 
