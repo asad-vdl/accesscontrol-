@@ -103,12 +103,39 @@
 
             <div class="card auth-card p-4">
 
-                <form action="/qr" method="post">
+               <form action="/qr" method="post">
 
-    <input
-        type="hidden"
+
+    <!-- DEVICE SELECT -->
+
+    <select 
         name="device_code"
-        value="MAIN_GATE_QR_001">
+        class="form-select mb-3"
+        required>
+
+        <option value="">
+            Select QR Scanner Device
+        </option>
+
+
+        {% for device in devices %}
+
+        <option value="{{ device.device_code }}">
+
+            {{ device.name }}
+            -
+            {{ device.device_code }}
+
+        </option>
+
+        {% endfor %}
+
+
+    </select>
+
+
+
+    <!-- QR CODE INPUT -->
 
     <input
         type="text"
@@ -118,6 +145,8 @@
         autocomplete="off"
         required>
 
+
+
     <button class="btn btn-primary w-100">
 
         <i class="bi bi-qr-code-scan"></i>
@@ -126,8 +155,8 @@
 
     </button>
 
-</form>
 
+</form>
                 <hr>
 
                 <a href="/" class="btn btn-outline-secondary w-100">

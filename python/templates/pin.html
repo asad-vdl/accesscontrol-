@@ -116,10 +116,37 @@
 
               <form action="/pin" method="post">
 
-    <input
-        type="hidden"
+
+    <!-- DEVICE SELECT -->
+
+    <select 
         name="device_code"
-        value="GATE2_PIN_001">
+        class="form-select mb-3"
+        required>
+
+        <option value="">
+            Select Keypad Device
+        </option>
+
+
+        {% for device in devices %}
+
+        <option value="{{ device.device_code }}">
+
+            {{ device.name }}
+            -
+            {{ device.device_code }}
+
+        </option>
+
+        {% endfor %}
+
+
+    </select>
+
+
+
+    <!-- PIN INPUT -->
 
     <input
         type="password"
@@ -127,6 +154,7 @@
         class="form-control mb-3"
         placeholder="Enter PIN"
         required>
+
 
     <button class="btn btn-primary w-100">
 
@@ -136,8 +164,8 @@
 
     </button>
 
-</form>
 
+</form>
                 <hr>
 
                 <a href="/" class="btn btn-outline-secondary w-100">

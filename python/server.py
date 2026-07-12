@@ -2,6 +2,7 @@ import requests
 
 LARAVEL_URL = "http://127.0.0.1:8000"
 from access import process_access
+from api import get_devices
 
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
@@ -102,11 +103,15 @@ async def close_door(request: Request):
 @app.get("/card", response_class=HTMLResponse)
 async def card(request: Request):
 
+    devices = get_devices("RFID Reader")
+
     return templates.TemplateResponse(
         request=request,
-        name="card.html"
+        name="card.html",
+        context={
+            "devices": devices
+        }
     )
-
 
 # =========================
 # PIN PAGE
@@ -115,9 +120,14 @@ async def card(request: Request):
 @app.get("/pin", response_class=HTMLResponse)
 async def pin(request: Request):
 
+    devices = get_devices("Keypad")
+
     return templates.TemplateResponse(
         request=request,
-        name="pin.html"
+        name="pin.html",
+        context={
+            "devices": devices
+        }
     )
 
 
@@ -128,9 +138,14 @@ async def pin(request: Request):
 @app.get("/qr", response_class=HTMLResponse)
 async def qr(request: Request):
 
+    devices = get_devices("QR Scanner")
+
     return templates.TemplateResponse(
         request=request,
-        name="qr.html"
+        name="qr.html",
+        context={
+            "devices": devices
+        }
     )
 
 
@@ -141,9 +156,14 @@ async def qr(request: Request):
 @app.get("/fingerprint", response_class=HTMLResponse)
 async def fingerprint(request: Request):
 
+    devices = get_devices("Fingerprint")
+
     return templates.TemplateResponse(
         request=request,
-        name="fingerprint.html"
+        name="fingerprint.html",
+        context={
+            "devices": devices
+        }
     )
 
 

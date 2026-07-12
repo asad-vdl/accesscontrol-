@@ -113,12 +113,39 @@
 
                 </div>
 
-                <form action="/fingerprint" method="post">
+               <form action="/fingerprint" method="post">
 
-    <input
-        type="hidden"
+
+    <!-- DEVICE SELECT -->
+
+    <select 
         name="device_code"
-        value="OFFICE_FP_001">
+        class="form-select mb-3"
+        required>
+
+        <option value="">
+            Select Fingerprint Device
+        </option>
+
+
+        {% for device in devices %}
+
+        <option value="{{ device.device_code }}">
+
+            {{ device.name }}
+            -
+            {{ device.device_code }}
+
+        </option>
+
+        {% endfor %}
+
+
+    </select>
+
+
+
+    <!-- FINGERPRINT ID -->
 
     <input
         type="text"
@@ -128,6 +155,7 @@
         autocomplete="off"
         required>
 
+
     <button class="btn btn-primary w-100">
 
         <i class="bi bi-fingerprint"></i>
@@ -136,8 +164,8 @@
 
     </button>
 
-</form>
 
+</form>
                 <hr>
 
                 <a href="/" class="btn btn-outline-secondary w-100">

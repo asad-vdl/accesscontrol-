@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Device;
+use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
@@ -34,4 +35,23 @@ class DeviceController extends Controller
 
     }
 
+    /*
+|--------------------------------------------------------------------------
+| Active Devices List
+|--------------------------------------------------------------------------
+*/
+
+public function list(Request $request)
+{
+    $devices = Device::with('gate')
+        ->where('status', 1);
+
+    if ($request->filled('type')) {
+        $devices->where('type', $request->type);
+    }
+
+    return response()->json(
+        $devices->orderBy('name')->get()
+    );
+}
 }

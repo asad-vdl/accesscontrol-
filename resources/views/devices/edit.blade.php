@@ -217,6 +217,13 @@ Keypad
 
 </option>
 
+<option value="QR Scanner"
+{{ $device->type=='QR Scanner'?'selected':'' }}>
+
+QR Scanner
+
+</option>
+
 
 
 </select>

@@ -23,7 +23,6 @@ def check_access(
 
     }
 
-
     data = {
 
         "device_code": device_code,
@@ -33,7 +32,6 @@ def check_access(
         "credential_value": credential_value
 
     }
-
 
     try:
 
@@ -55,3 +53,28 @@ def check_access(
             "message": str(e)
 
         }
+
+
+def get_devices(device_type=None):
+
+    try:
+
+        url = API_URL.replace(
+            "/access-check",
+            "/devices"
+        )
+
+        if device_type:
+
+            url += f"?type={device_type}"
+
+        response = requests.get(
+            url,
+            timeout=REQUEST_TIMEOUT
+        )
+
+        return response.json()
+
+    except Exception:
+
+        return []

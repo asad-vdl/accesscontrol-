@@ -24,3 +24,8 @@ Route::get(
     '/device/token/{device_code}',
     [DeviceController::class, 'token']
 );
+
+Route::get(
+    '/devices',
+    [DeviceController::class, 'list']
+);

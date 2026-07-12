@@ -115,18 +115,54 @@
 
                <form action="/card" method="post">
 
-    <input
-        type="hidden"
+    <form action="/card" method="post">
+
+
+    <!-- DEVICE SELECT -->
+
+    <select 
         name="device_code"
-        value="MAIN_GATE_001">
+        class="form-select mb-3"
+        required>
+
+        <option value="">
+            Select RFID Reader
+        </option>
+
+
+        {% for device in devices %}
+
+        <option value="{{ device.device_code }}">
+
+            {{ device.name }} 
+            -
+            {{ device.device_code }}
+
+        </option>
+
+        {% endfor %}
+
+
+    </select>
+
+
+
+    <!-- CARD UID -->
 
     <input
+
         type="text"
+
         name="uid"
+
         class="form-control mb-3"
+
         placeholder="Enter Card UID"
+
         autocomplete="off"
+
         required>
+
 
     <button class="btn btn-primary w-100">
 
@@ -135,6 +171,7 @@
         Check Access
 
     </button>
+
 
 </form>
 
