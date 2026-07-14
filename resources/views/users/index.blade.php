@@ -7,9 +7,14 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <a href="{{ route('users.create') }}" class="btn btn-primary">
-            Add User
-        </a>
+       <a href="{{ route('users.create') }}"
+   class="btn btn-primary mb-3">
+
+    <i class="bi bi-plus-circle me-1"></i>
+
+    Add User
+
+</a>
 
     </div>
 
@@ -115,7 +120,7 @@
 
                             <th>Email</th>
 
-                            <th>Phone</th>
+                            
 
                             <th>Employee ID</th>
 
@@ -174,11 +179,7 @@
 
                             </td>
 
-                            <td>
-
-                                {{ $user->phone ?? '-' }}
-
-                            </td>
+                           
 
                             <td>
 
@@ -186,110 +187,135 @@
 
                             </td>
 
-                        <td>
+                       <td style="min-width:220px;">
 
-    @forelse($user->gates as $gate)
+@if($user->gates->count())
 
-        <div class="mb-2">
+<button
+    class="btn btn-sm btn-outline-primary"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#gate{{ $user->id }}"
+    aria-expanded="false">
 
-            <span class="badge bg-white text-success border mb-1 me-2 px-2 py-2">
+    <i class="bi bi-door-open"></i>
 
-                <i class="bi bi-door-open-fill"></i>
+    {{ $user->gates->count() }}
+
+    Gate(s)
+
+    <i class="bi bi-chevron-down ms-1"></i>
+
+</button>
+
+<div class="collapse mt-2" id="gate{{ $user->id }}">
+
+    @foreach($user->gates as $gate)
+
+        <div class="border rounded p-2 mb-2 bg-light">
+
+            <div class="fw-bold text-success mb-2">
+
+                <i class="bi bi-door-open-fill me-1"></i>
 
                 {{ $gate->name }}
 
-            </span>
+            </div>
 
-            @if($gate->devices->count())
+            @forelse($gate->devices as $device)
 
-                <div class="ms-3 mt-1">
+                <span class="badge bg-primary me-1 mb-1">
 
-                    @foreach($gate->devices as $device)
+                    <i class="bi bi-cpu-fill me-1"></i>
 
-                        <div class="text-muted small mb-1">
+                    {{ $device->name }}
 
-                            <i class="bi bi-cpu-fill text-primary"></i>
+                </span>
 
-                            {{ $device->name }}
+            @empty
 
-                        </div>
+                <span class="badge bg-danger">
 
-                    @endforeach
+                    No Device
 
-                </div>
+                </span>
 
-            @else
-
-                <div class="text-danger small ms-3">
-
-                    <i class="bi bi-exclamation-circle-fill"></i>
-
-                    No Device Assigned
-
-                </div>
-
-            @endif
+            @endforelse
 
         </div>
 
-    @empty
+    @endforeach
 
-        <span class="badge bg-white text-secondary border">
+</div>
 
-            No Gate Assigned
+@else
 
-        </span>
+<span class="badge bg-secondary">
 
-    @endforelse
+    No Gate Assigned
+
+</span>
+
+@endif
+
+</td>
+                            <td>
+
+@if($user->status)
+
+<span class="d-inline-flex align-items-center">
+
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
+
+    Active
+
+</span>
+
+@else
+
+<span class="d-inline-flex align-items-center">
+
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
+
+    Inactive
+
+</span>
+
+@endif
 
 </td>
 
-                            <td>
+                           <td class="text-nowrap">
 
-                                @if($user->status)
+    <a href="{{ route('users.edit',$user->id) }}"
+       class="btn btn-light btn-sm border"
+       title="Edit User">
 
-                                    <span class="badge bg-success">
-                                        Active
-                                    </span>
+        <i class="bi bi-pencil-square text-primary"></i>
 
-                                @else
+    </a>
 
-                                    <span class="badge bg-danger">
-                                        Inactive
-                                    </span>
+    <form action="{{ route('users.destroy',$user->id) }}"
+          method="POST"
+          class="d-inline">
 
-                                @endif
+        @csrf
+        @method('DELETE')
 
-                            </td>
+        <button type="submit"
+                class="btn btn-light btn-sm border"
+                title="Delete User"
+                onclick="return confirm('Delete this user?')">
 
-                            <td>
+            <i class="bi bi-trash text-danger"></i>
 
-                                <a href="{{ route('users.edit',$user->id) }}"
-                                   class="btn btn-sm btn-warning">
+        </button>
 
-                                    Edit
+    </form>
 
-                                </a>
-
-                                <form action="{{ route('users.destroy',$user->id) }}"
-                                      method="POST"
-                                      style="display:inline-block;">
-
-                                    @csrf
-
-                                    @method('DELETE')
-
-                                    <button type="submit"
-                                            class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Delete this user?')">
-
-                                        Delete
-
-                                    </button>
-
-                                </form>
-
-                            </td>
+</td>
 
                         </tr>
 
@@ -297,7 +323,7 @@
 
                         <tr>
 
-                            <td colspan="9" class="text-center py-4">
+                            <td colspan="8" class="text-center py-4">
 
                                 No Users Found
 

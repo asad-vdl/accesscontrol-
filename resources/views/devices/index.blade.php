@@ -6,12 +6,14 @@
 <div class="container-fluid">
 
 
-    <a href="{{ route('devices.create') }}" 
-       class="btn btn-primary mb-4">
+    <a href="{{ route('devices.create') }}"
+   class="btn btn-primary mb-4">
 
-       Add Device
+    <i class="bi bi-plus-circle me-1"></i>
 
-    </a>
+    Add Device
+
+</a>
 
 
 
@@ -207,11 +209,9 @@ Device Inventory
 
 <th>Location</th>
 
-<th>Status</th>
+<th>Enabled</th>
 
-<th>Online</th>
-
-<th>Last Seen</th>
+<th>Connection</th>
 
 <th>Actions</th>
 
@@ -347,33 +347,29 @@ No Gate
 
 <td>
 
-
-
 @if($device->status)
 
+<span class="d-inline-flex align-items-center">
 
-<span class="badge bg-success">
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-Active
+    Enabled
 
 </span>
-
-
 
 @else
 
+<span class="d-inline-flex align-items-center">
 
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
 
-<span class="badge bg-danger">
-
-Inactive
+    Disabled
 
 </span>
 
-
 @endif
-
-
 
 </td>
 
@@ -382,40 +378,31 @@ Inactive
 
 
 
-
 <td>
-
-
 
 @if($device->online_status)
 
+<span class="d-inline-flex align-items-center">
 
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-<span class="badge bg-success">
-
-Online
+    Online
 
 </span>
-
-
-
 
 @else
 
+<span class="d-inline-flex align-items-center">
 
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
 
-<span class="badge bg-danger">
-
-Offline
+    Offline
 
 </span>
 
-
-
-
 @endif
-
-
 
 </td>
 
@@ -423,98 +410,37 @@ Offline
 
 
 
-
-
 <td>
 
+    <div class="d-flex align-items-center gap-2">
 
+        <a href="{{ route('devices.edit',$device->id) }}"
+           class="btn btn-light btn-sm border"
+           title="Edit Device">
 
-@if($device->last_seen)
+            <i class="bi bi-pencil-square text-primary"></i>
 
+        </a>
 
+        <form action="{{ route('devices.destroy',$device->id) }}"
+              method="POST"
+              class="m-0">
 
-{{ \Carbon\Carbon::parse($device->last_seen)
-->format('d-M-Y h:i A') }}
+            @csrf
+            @method('DELETE')
 
+            <button type="submit"
+                    class="btn btn-light btn-sm border"
+                    title="Delete Device"
+                    onclick="return confirm('Delete this device?')">
 
+                <i class="bi bi-trash text-danger"></i>
 
+            </button>
 
-@else
+        </form>
 
-
-
-Never
-
-
-
-
-@endif
-
-
-
-</td>
-
-
-
-
-
-
-
-<td>
-
-
-<div class="d-flex gap-2">
-
-
-
-<a href="{{ route('devices.edit',$device->id) }}"
-
-class="btn btn-sm btn-warning">
-
-
-Edit
-
-
-</a>
-
-
-
-
-
-
-<form action="{{ route('devices.destroy',$device->id) }}"
-
-method="POST">
-
-
-@csrf
-
-@method('DELETE')
-
-
-
-<button type="submit"
-
-class="btn btn-sm btn-danger"
-
-onclick="return confirm('Delete Device?')">
-
-
-Delete
-
-
-</button>
-
-
-</form>
-
-
-
-
-
-</div>
-
-
+    </div>
 
 </td>
 
@@ -534,7 +460,7 @@ Delete
 <tr>
 
 
-<td colspan="11" class="text-center py-4">
+<td colspan="10" class="text-center py-4">
 
 
 No Devices Found
@@ -568,8 +494,6 @@ No Devices Found
 
 
 </div>
-
-
 
 
 @endsection

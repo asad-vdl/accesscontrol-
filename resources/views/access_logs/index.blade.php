@@ -172,23 +172,29 @@
 
                             <td>
 
-                                @if($log->access_status == 'granted')
+                               @if($log->access_status == 'granted')
 
-                                    <span class="badge bg-success">
+<span class="d-inline-flex align-items-center">
 
-                                        Granted
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-                                    </span>
+    Granted
 
-                                @else
+</span>
 
-                                    <span class="badge bg-danger">
+@else
 
-                                        Denied
+<span class="d-inline-flex align-items-center">
 
-                                    </span>
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
 
-                                @endif
+    Denied
+
+</span>
+
+@endif
 
                             </td>
 

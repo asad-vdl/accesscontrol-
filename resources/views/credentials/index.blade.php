@@ -6,12 +6,14 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <a href="{{ route('credentials.create') }}"
-           class="btn btn-primary">
+       <a href="{{ route('credentials.create') }}"
+   class="btn btn-primary mb-3">
 
-            Add Credential
+    <i class="bi bi-plus-circle me-1"></i>
 
-        </a>
+    Add Credential
+
+</a>
 
     </div>
 
@@ -162,113 +164,137 @@
                                 </code>
 
                             </td>
-                        <td>
+                       <td style="min-width:220px;">
 
 @if($credential->user && $credential->user->gates->count())
 
+<button
+    class="btn btn-sm btn-outline-primary"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#gate{{ $credential->id }}"
+    aria-expanded="false">
+
+    <i class="bi bi-door-open"></i>
+
+    {{ $credential->user->gates->count() }}
+
+    Gate(s)
+
+    <i class="bi bi-chevron-down ms-1"></i>
+
+</button>
+
+
+<div class="collapse mt-2" id="gate{{ $credential->id }}">
+
     @foreach($credential->user->gates as $gate)
 
-        <div class="mb-2">
+        <div class="border rounded p-2 mb-2 bg-light">
 
-            <span class="badge bg-white text-success border mb-1 me-2 px-2 py-2">
+            <div class="fw-bold text-success mb-2">
 
                 <i class="bi bi-door-open-fill"></i>
 
                 {{ $gate->name }}
 
-            </span>
+            </div>
 
-            @if($gate->devices->count())
+            @forelse($gate->devices as $device)
 
-                <div class="ms-3 mt-1">
+                <span class="badge bg-primary me-1 mb-1">
 
-                    @foreach($gate->devices as $device)
+                    <i class="bi bi-cpu-fill me-1"></i>
 
-                        <div class="text-muted small mb-1">
+                    {{ $device->name }}
 
-                            <i class="bi bi-cpu-fill text-primary"></i>
+                </span>
 
-                            {{ $device->name }}
+            @empty
 
-                        </div>
+                <span class="badge bg-danger">
 
-                    @endforeach
+                    No Device
 
-                </div>
+                </span>
 
-            @else
-
-                <div class="text-danger small ms-3">
-
-                    <i class="bi bi-exclamation-circle-fill"></i>
-
-                    No Device Assigned
-
-                </div>
-
-            @endif
+            @endforelse
 
         </div>
 
     @endforeach
 
+</div>
+
 @else
 
-    <span class="badge bg-white text-secondary border">
+<span class="badge bg-secondary">
 
-        No Gate Assigned
+    No Gate Assigned
 
-    </span>
+</span>
 
 @endif
 
 </td>
-                        <td>
+                       <td>
 
-                                @if($credential->status)
+@if($credential->status)
 
-                                    <span class="badge bg-success">
-                                        Active
-                                    </span>
+<span class="d-inline-flex align-items-center">
 
-                                @else
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-                                    <span class="badge bg-danger">
-                                        Inactive
-                                    </span>
+    Active
 
-                                @endif
+</span>
 
-                            </td>
+@else
+
+<span class="d-inline-flex align-items-center">
+
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
+
+    Inactive
+
+</span>
+
+@endif
+
+</td>
 
                             <td>
 
-                                <a href="{{ route('credentials.edit', $credential->id) }}"
-                                   class="btn btn-warning btn-sm">
+    <a href="{{ route('credentials.edit',$credential->id) }}"
+       class="btn btn-light btn-sm border me-1"
+       title="Edit Credential">
 
-                                    Edit
+        <i class="bi bi-pencil-square text-primary"></i>
 
-                                </a>
+    </a>
 
-                                <form action="{{ route('credentials.destroy', $credential->id) }}"
-                                      method="POST"
-                                      style="display:inline-block;">
+    <form action="{{ route('credentials.destroy',$credential->id) }}"
+          method="POST"
+          class="d-inline">
 
-                                    @csrf
+        @csrf
+        @method('DELETE')
 
-                                    @method('DELETE')
+        <button
+            type="submit"
+            class="btn btn-light btn-sm border"
+            title="Delete Credential"
+            onclick="return confirm('Delete this credential?')">
 
-                                    <button type="submit"
-                                            class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Delete Credential?')">
+            <i class="bi bi-trash text-danger"></i>
 
-                                        Delete
+        </button>
 
-                                    </button>
+    </form>
 
-                                </form>
-
-                            </td>
+</td>
 
                         </tr>
 
