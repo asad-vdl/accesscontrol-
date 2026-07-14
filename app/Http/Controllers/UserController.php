@@ -98,25 +98,39 @@ class UserController extends Controller
     {
 
 
-        $request->validate([
+       $request->validate([
 
+    'name' => 'required|string|max:100',
 
-            'name'=>'required',
+    'email' => 'required|email|max:255|unique:users,email',
 
+    'phone' => 'nullable|string|max:20',
 
-            'email'=>'required|email|unique:users',
+    'employee_id' => 'nullable|string|max:50|unique:users,employee_id',
 
+    'password' => 'required|string|min:6|max:50',
 
-            'password'=>'required|min:6',
+    'role' => 'required|in:admin,operator,security',
 
+    'status' => 'required|boolean',
 
-            'role'=>'required',
+    'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
+    'gate_ids' => 'required|array|min:1',
 
-            'photo'=>'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    'gate_ids.*' => 'exists:gates,id',
 
+    'start_time' => 'required|date_format:H:i',
 
-        ]);
+    'end_time' => 'required|date_format:H:i|after:start_time',
+
+    'valid_from' => 'nullable|date',
+
+    'valid_to' => 'nullable|date|after_or_equal:valid_from',
+
+    'schedule_status' => 'required|boolean',
+
+]);
 
 
 
@@ -320,22 +334,37 @@ UserAccessSchedule::create([
     {
 
 
-        $request->validate([
+       $request->validate([
 
+    'name' => 'required|string|max:100',
 
-            'name'=>'required',
+    'email' => 'required|email|max:255|unique:users,email,' . $user->id,
 
+    'phone' => 'nullable|string|max:20',
 
-            'email' => 'required|email|unique:users,email,' . $user->id,
+    'employee_id' => 'nullable|string|max:50|unique:users,employee_id,' . $user->id,
 
+    'role' => 'required|in:admin,operator,security',
 
-            'role'=>'required',
+    'status' => 'required|boolean',
 
+    'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
-            'photo'=>'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    'gate_ids' => 'required|array|min:1',
 
+    'gate_ids.*' => 'exists:gates,id',
 
-        ]);
+    'start_time' => 'required|date_format:H:i',
+
+    'end_time' => 'required|date_format:H:i|after:start_time',
+
+    'valid_from' => 'nullable|date',
+
+    'valid_to' => 'nullable|date|after_or_equal:valid_from',
+
+    'schedule_status' => 'required|boolean',
+
+]);
 
 
 

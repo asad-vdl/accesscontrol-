@@ -16,24 +16,6 @@
     </div>
 
 
-    @if($errors->any())
-
-        <div class="alert alert-danger">
-
-            <ul class="mb-0">
-
-                @foreach($errors->all() as $error)
-
-                    <li>{{ $error }}</li>
-
-                @endforeach
-
-            </ul>
-
-        </div>
-
-    @endif
-
 
     <form action="{{ route('users.update',$user->id) }}"
           method="POST"
@@ -51,10 +33,17 @@
                     Name
                 </label>
 
-                <input type="text"
-                       name="name"
-                       class="form-control"
-                       value="{{ $user->name }}">
+                <input
+    type="text"
+    name="name"
+    class="form-control @error('name') is-invalid @enderror"
+    value="{{ old('name',$user->name) }}">
+
+@error('name')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -65,10 +54,17 @@
                     Email
                 </label>
 
-                <input type="email"
-                       name="email"
-                       class="form-control"
-                       value="{{ $user->email }}">
+                <input
+    type="email"
+    name="email"
+    class="form-control @error('email') is-invalid @enderror"
+    value="{{ old('email',$user->email) }}">
+
+@error('email')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -79,10 +75,17 @@
                     Phone
                 </label>
 
-                <input type="text"
-                       name="phone"
-                       class="form-control"
-                       value="{{ $user->phone }}">
+               <input
+    type="text"
+    name="phone"
+    class="form-control @error('phone') is-invalid @enderror"
+    value="{{ old('phone',$user->phone) }}">
+
+@error('phone')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -93,10 +96,17 @@
                     Employee ID
                 </label>
 
-                <input type="text"
-                       name="employee_id"
-                       class="form-control"
-                       value="{{ $user->employee_id }}">
+               <input
+    type="text"
+    name="employee_id"
+    class="form-control @error('employee_id') is-invalid @enderror"
+    value="{{ old('employee_id',$user->employee_id) }}">
+
+@error('employee_id')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -107,21 +117,29 @@
                     Role
                 </label>
 
-                <select name="role" class="form-control">
+               <select
+    name="role"
+    class="form-control @error('role') is-invalid @enderror">
 
-                    <option value="admin" {{ $user->role=='admin' ? 'selected' : '' }}>
-                        Admin
-                    </option>
+    <option value="admin" {{ old('role',$user->role)=='admin'?'selected':'' }}>
+        Admin
+    </option>
 
-                    <option value="operator" {{ $user->role=='operator' ? 'selected' : '' }}>
-                        Operator
-                    </option>
+    <option value="operator" {{ old('role',$user->role)=='operator'?'selected':'' }}>
+        Operator
+    </option>
 
-                    <option value="security" {{ $user->role=='security' ? 'selected' : '' }}>
-                        Security Guard
-                    </option>
+    <option value="security" {{ old('role',$user->role)=='security'?'selected':'' }}>
+        Security Guard
+    </option>
 
-                </select>
+</select>
+
+@error('role')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -132,18 +150,25 @@
                     Status
                 </label>
 
-                <select name="status" class="form-control">
+                <select
+    name="status"
+    class="form-control @error('status') is-invalid @enderror">
 
-                    <option value="1" {{ $user->status ? 'selected' : '' }}>
-                        Active
-                    </option>
+    <option value="1" {{ old('status',$user->status)=='1'?'selected':'' }}>
+        Active
+    </option>
 
-                    <option value="0" {{ !$user->status ? 'selected' : '' }}>
-                        Inactive
-                    </option>
+    <option value="0" {{ old('status',$user->status)=='0'?'selected':'' }}>
+        Inactive
+    </option>
 
-                </select>
+</select>
 
+@error('status')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
             </div>
 
 
@@ -153,10 +178,17 @@
                     Profile Photo
                 </label>
 
-                <input type="file"
-                       name="photo"
-                       class="form-control"
-                       accept=".jpg,.jpeg,.png">
+               <input
+    type="file"
+    name="photo"
+    class="form-control @error('photo') is-invalid @enderror"
+    accept=".jpg,.jpeg,.png">
+
+@error('photo')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
                 <small class="text-muted">
                     Leave empty if you don't want to change the photo.
@@ -230,7 +262,7 @@ value="{{ $gate->id }}"
 
 id="gate{{ $gate->id }}"
 
-{{ in_array($gate->id,$assignedGates) ? 'checked':'' }}>
+{{ in_array($gate->id, old('gate_ids', $assignedGates)) ? 'checked' : '' }}
 
 
 
@@ -278,6 +310,11 @@ for="gate{{ $gate->id }}">
 
 
 </div>
+@error('gate_ids')
+<div class="text-danger mt-2">
+    {{ $message }}
+</div>
+@enderror
 
 
 </div>
@@ -336,11 +373,16 @@ for="gate{{ $gate->id }}">
         </label>
 
         <input
-            type="time"
-            name="start_time"
-            class="form-control"
-            value="{{ \Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}">
+    type="time"
+    name="start_time"
+    class="form-control @error('start_time') is-invalid @enderror"
+    value="{{ old('start_time', \Carbon\Carbon::parse($schedule->start_time)->format('H:i')) }}">
 
+@error('start_time')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
     </div>
 
     <div class="col-md-3 mb-3">
@@ -351,11 +393,17 @@ for="gate{{ $gate->id }}">
 
         </label>
 
-        <input
-            type="time"
-            name="end_time"
-            class="form-control"
-            value="{{ \Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}">
+       <input
+    type="time"
+    name="end_time"
+    class="form-control @error('end_time') is-invalid @enderror"
+    value="{{ old('end_time', \Carbon\Carbon::parse($schedule->end_time)->format('H:i')) }}">
+
+@error('end_time')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
     </div>
 
@@ -368,10 +416,16 @@ for="gate{{ $gate->id }}">
         </label>
 
         <input
-            type="date"
-            name="valid_from"
-            class="form-control"
-            value="{{ optional($schedule->valid_from)->format('Y-m-d') }}">
+    type="date"
+    name="valid_from"
+    class="form-control @error('valid_from') is-invalid @enderror"
+    value="{{ old('valid_from', optional($schedule->valid_from)->format('Y-m-d')) }}">
+
+@error('valid_from')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
     </div>
 
@@ -384,10 +438,16 @@ for="gate{{ $gate->id }}">
         </label>
 
         <input
-            type="date"
-            name="valid_to"
-            class="form-control"
-            value="{{ optional($schedule->valid_to)->format('Y-m-d') }}">
+    type="date"
+    name="valid_to"
+    class="form-control @error('valid_to') is-invalid @enderror"
+    value="{{ old('valid_to', optional($schedule->valid_to)->format('Y-m-d')) }}">
+
+@error('valid_to')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
     </div>
 
@@ -400,25 +460,26 @@ for="gate{{ $gate->id }}">
         </label>
 
         <select
-            name="schedule_status"
-            class="form-select">
+    name="schedule_status"
+    class="form-select @error('schedule_status') is-invalid @enderror">
 
-            <option value="1"
-                {{ $schedule->status ? 'selected' : '' }}>
+    <option value="1"
+        {{ old('schedule_status',$schedule->status)=='1'?'selected':'' }}>
+        Active
+    </option>
 
-                Active
+    <option value="0"
+        {{ old('schedule_status',$schedule->status)=='0'?'selected':'' }}>
+        Inactive
+    </option>
 
-            </option>
+</select>
 
-            <option value="0"
-                {{ !$schedule->status ? 'selected' : '' }}>
-
-                Inactive
-
-            </option>
-
-        </select>
-
+@error('schedule_status')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
     </div>
 
 </div>

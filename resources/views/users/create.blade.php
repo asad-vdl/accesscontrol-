@@ -18,25 +18,6 @@
     </div>
 
 
-    @if($errors->any())
-
-    <div class="alert alert-danger">
-
-        <ul class="mb-0">
-
-            @foreach($errors->all() as $error)
-
-                <li>{{ $error }}</li>
-
-            @endforeach
-
-        </ul>
-
-    </div>
-
-    @endif
-
-
 
     <form action="{{ route('users.store') }}"
           method="POST"
@@ -53,11 +34,18 @@
                     Name
                 </label>
 
-                <input type="text"
-                       name="name"
-                       class="form-control"
-                       placeholder="Enter Name"
-                       value="{{ old('name') }}">
+                <input
+    type="text"
+    name="name"
+    class="form-control @error('name') is-invalid @enderror"
+    placeholder="Enter Name"
+    value="{{ old('name') }}">
+
+@error('name')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -68,11 +56,18 @@
                     Email
                 </label>
 
-                <input type="email"
-                       name="email"
-                       class="form-control"
-                       placeholder="Enter Email"
-                       value="{{ old('email') }}">
+                <input
+    type="email"
+    name="email"
+    class="form-control @error('email') is-invalid @enderror"
+    placeholder="Enter Email"
+    value="{{ old('email') }}">
+
+@error('email')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -83,11 +78,18 @@
                     Phone
                 </label>
 
-                <input type="text"
-                       name="phone"
-                       class="form-control"
-                       placeholder="Enter Phone"
-                       value="{{ old('phone') }}">
+                <input
+    type="text"
+    name="phone"
+    class="form-control @error('phone') is-invalid @enderror"
+    placeholder="Enter Phone"
+    value="{{ old('phone') }}">
+
+@error('phone')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -98,12 +100,18 @@
                     Employee ID
                 </label>
 
-                <input type="text"
-                       name="employee_id"
-                       class="form-control"
-                       placeholder="Enter Employee ID"
-                       value="{{ old('employee_id') }}">
+                <input
+    type="text"
+    name="employee_id"
+    class="form-control @error('employee_id') is-invalid @enderror"
+    placeholder="Enter Employee ID"
+    value="{{ old('employee_id') }}">
 
+@error('employee_id')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
             </div>
 
 
@@ -113,10 +121,17 @@
                     Password
                 </label>
 
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="Enter Password">
+               <input
+    type="password"
+    name="password"
+    class="form-control @error('password') is-invalid @enderror"
+    placeholder="Enter Password">
+
+@error('password')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -127,21 +142,21 @@
                     Role
                 </label>
 
-                <select name="role" class="form-control">
+                <select
+    name="role"
+    class="form-control @error('role') is-invalid @enderror">
 
-                    <option value="admin">
-                        Admin
-                    </option>
+    <option value="admin" {{ old('role')=='admin'?'selected':'' }}>Admin</option>
+    <option value="operator" {{ old('role')=='operator'?'selected':'' }}>Operator</option>
+    <option value="security" {{ old('role')=='security'?'selected':'' }}>Security Guard</option>
 
-                    <option value="operator">
-                        Operator
-                    </option>
+</select>
 
-                    <option value="security">
-                        Security Guard
-                    </option>
-
-                </select>
+@error('role')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -152,18 +167,20 @@
                     Status
                 </label>
 
-                <select name="status" class="form-control">
+                <select
+    name="status"
+    class="form-control @error('status') is-invalid @enderror">
 
-                    <option value="1">
-                        Active
-                    </option>
+    <option value="1" {{ old('status',1)=='1'?'selected':'' }}>Active</option>
+    <option value="0" {{ old('status')=='0'?'selected':'' }}>Inactive</option>
 
-                    <option value="0">
-                        Inactive
-                    </option>
+</select>
 
-                </select>
-
+@error('status')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
             </div>
 
 
@@ -173,10 +190,17 @@
                     Profile Photo
                 </label>
 
-                <input type="file"
-                       name="photo"
-                       class="form-control"
-                       accept=".jpg,.jpeg,.png">
+               <input
+    type="file"
+    name="photo"
+    class="form-control @error('photo') is-invalid @enderror"
+    accept=".jpg,.jpeg,.png">
+
+@error('photo')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
                 <small class="text-muted">
                     JPG, JPEG, PNG (Maximum 2MB)
@@ -260,6 +284,12 @@
 
     </div>
 
+    @error('gate_ids')
+<div class="text-danger mt-2">
+    {{ $message }}
+</div>
+@enderror
+
 
 </div>
 
@@ -316,12 +346,17 @@
 
         </label>
 
-        <input
-            type="time"
-            name="start_time"
-            class="form-control"
-            value="{{ $defaultSchedule['start_time'] }}">
+       <input
+    type="time"
+    name="start_time"
+    class="form-control @error('start_time') is-invalid @enderror"
+    value="{{ old('start_time',$defaultSchedule['start_time']) }}">
 
+@error('start_time')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
     </div>
 
     <div class="col-md-3 mb-3">
@@ -332,11 +367,17 @@
 
         </label>
 
-        <input
-            type="time"
-            name="end_time"
-            class="form-control"
-            value="{{ $defaultSchedule['end_time'] }}">
+       <input
+    type="time"
+    name="end_time"
+    class="form-control @error('end_time') is-invalid @enderror"
+    value="{{ old('end_time',$defaultSchedule['end_time']) }}">
+
+@error('end_time')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
     </div>
 
@@ -349,9 +390,16 @@
         </label>
 
         <input
-            type="date"
-            name="valid_from"
-            class="form-control">
+    type="date"
+    name="valid_from"
+    class="form-control @error('valid_from') is-invalid @enderror"
+    value="{{ old('valid_from') }}">
+
+@error('valid_from')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
     </div>
 
@@ -364,9 +412,16 @@
         </label>
 
         <input
-            type="date"
-            name="valid_to"
-            class="form-control">
+    type="date"
+    name="valid_to"
+    class="form-control @error('valid_to') is-invalid @enderror"
+    value="{{ old('valid_to') }}">
+
+@error('valid_to')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
     </div>
 
@@ -379,22 +434,24 @@
         </label>
 
         <select
-            name="schedule_status"
-            class="form-select">
+    name="schedule_status"
+    class="form-select @error('schedule_status') is-invalid @enderror">
 
-            <option value="1" selected>
+    <option value="1" {{ old('schedule_status',1)=='1'?'selected':'' }}>
+        Active
+    </option>
 
-                Active
+    <option value="0" {{ old('schedule_status')=='0'?'selected':'' }}>
+        Inactive
+    </option>
 
-            </option>
+</select>
 
-            <option value="0">
-
-                Inactive
-
-            </option>
-
-        </select>
+@error('schedule_status')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
     </div>
 
