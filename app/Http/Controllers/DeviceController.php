@@ -79,23 +79,23 @@ class DeviceController extends Controller
     {
 
 
-        $request->validate([
+       $request->validate([
 
+    'gate_id' => 'required|exists:gates,id',
 
-            'gate_id'=>'required|exists:gates,id',
+    'name' => 'required|string|max:100',
 
+    'type' => 'required|string|max:50',
 
-            'name'=>'required',
+    'device_code' => 'required|string|max:100|unique:devices,device_code',
 
+    'ip_address' => 'nullable|ip',
 
-            'type'=>'required',
+    'location' => 'nullable|string|max:255',
 
+    'status' => 'required|in:0,1',
 
-            'device_code'=>'required|unique:devices',
-
-
-        ]);
-
+]);
 
 
 
@@ -121,8 +121,7 @@ class DeviceController extends Controller
             'location'=>$request->location,
 
 
-            'status'=>$request->status ?? 1,
-
+            'status' => $request->status,
 
             'api_token'=>Str::random(60),
 
@@ -192,19 +191,23 @@ class DeviceController extends Controller
 
 
 
-        $request->validate([
+       $request->validate([
 
     'gate_id' => 'required|exists:gates,id',
 
-    'name' => 'required',
+    'name' => 'required|string|max:100',
 
-    'type' => 'required',
+    'type' => 'required|string|max:50',
 
-    'device_code' => 'required|unique:devices,device_code,' . $device->id,
+    'device_code' => 'required|string|max:100|unique:devices,device_code,' . $device->id,
+
+    'ip_address' => 'nullable|ip',
+
+    'location' => 'nullable|string|max:255',
+
+    'status' => 'required|in:0,1',
 
 ]);
-
-
 
 
 

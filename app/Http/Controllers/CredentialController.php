@@ -53,11 +53,17 @@ class CredentialController extends Controller
 
         $request->validate([
 
-            'user_id' => 'required',
-            'credential_type' => 'required',
-            'credential_value' => 'required|unique:credentials',
+    'user_id' => 'required|exists:users,id',
 
-        ]);
+    'credential_type' => 'required|string|max:50',
+
+    'credential_value' => 'required|string|max:255|unique:credentials,credential_value',
+
+    'status' => 'required|boolean',
+
+    'notes' => 'nullable|string|max:500',
+
+]);
 
 
         Credential::create([
@@ -88,40 +94,41 @@ class CredentialController extends Controller
 
 
 
-        public function update(
-        Request $request,
-        Credential $credential
-    )
-    {
+       public function update(Request $request, Credential $credential)
+{
 
-        $request->validate([
+    $request->validate([
 
-            'user_id' => 'required',
-            'credential_type' => 'required',
-            'credential_value' => 'required',
+        'user_id' => 'required|exists:users,id',
 
-        ]);
+        'credential_type' => 'required|string|max:50',
 
+        'credential_value' => 'required|string|max:255|unique:credentials,credential_value,' . $credential->id,
 
-        $credential->update([
+        'status' => 'required|boolean',
 
-            'user_id' => $request->user_id,
-            'credential_type' => $request->credential_type,
-            'credential_value' => $request->credential_value,
-            'status' => $request->status,
-            'notes' => $request->notes,
+        'notes' => 'nullable|string|max:500',
 
-        ]);
+    ]);
 
+    $credential->update([
 
-        return redirect()
-            ->route('credentials.index')
-            ->with(
-                'success',
-                'Credential Updated Successfully'
-            );
-    }
+        'user_id' => $request->user_id,
 
+        'credential_type' => $request->credential_type,
+
+        'credential_value' => $request->credential_value,
+
+        'status' => $request->status,
+
+        'notes' => $request->notes,
+
+    ]);
+
+    return redirect()
+        ->route('credentials.index')
+        ->with('success', 'Credential Updated Successfully');
+}
 
 
         public function destroy(

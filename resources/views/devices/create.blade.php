@@ -33,33 +33,33 @@ Select Gate
 </label>
 
 
-<select name="gate_id" class="form-control" required>
+<select name="gate_id" class="form-control @error('gate_id') is-invalid @enderror">
 
+    <option value="">
+        -- Select Gate --
+    </option>
 
-<option value="">
--- Select Gate --
-</option>
+    @foreach($gates as $gate)
 
+    <option value="{{ $gate->id }}"
+        {{ old('gate_id') == $gate->id ? 'selected' : '' }}>
 
+        {{ $gate->name }}
+        @if($gate->location)
+            - {{ $gate->location }}
+        @endif
 
-@foreach($gates as $gate)
+    </option>
 
-
-<option value="{{ $gate->id }}">
-  {{ $gate->name }}
-    @if($gate->location)
-        - {{ $gate->location }}
-    @endif
-
-</option>
-
-
-@endforeach
-
-
+    @endforeach
 
 </select>
 
+@error('gate_id')
+<div class="text-danger mt-1">
+    {{ $message }}
+</div>
+@enderror
 
 </div>
 
@@ -78,8 +78,14 @@ Device Name
 
 <input type="text"
 name="name"
-class="form-control"
-required>
+class="form-control @error('name') is-invalid @enderror"
+value="{{ old('name') }}">
+
+@error('name')
+<div class="text-danger mt-1">
+    {{ $message }}
+</div>
+@enderror
 
 
 </div>
@@ -98,33 +104,39 @@ Device Type
 </label>
 
 
-<select name="type" class="form-control" required>
+<select name="type" class="form-control @error('type') is-invalid @enderror">
 
-    <option value="RFID Reader">
+    <option value="RFID Reader" {{ old('type')=='RFID Reader'?'selected':'' }}>
         RFID Reader
     </option>
 
-    <option value="PIN Reader">
+    <option value="PIN Reader" {{ old('type')=='PIN Reader'?'selected':'' }}>
         PIN Reader
     </option>
 
-    <option value="Fingerprint Reader">
+    <option value="Fingerprint Reader" {{ old('type')=='Fingerprint Reader'?'selected':'' }}>
         Fingerprint Reader
     </option>
 
-    <option value="Palm Reader">
+    <option value="Palm Reader" {{ old('type')=='Palm Reader'?'selected':'' }}>
         Palm Reader
     </option>
 
-    <option value="Face Recognition">
+    <option value="Face Recognition" {{ old('type')=='Face Recognition'?'selected':'' }}>
         Face Recognition
     </option>
 
-    <option value="QR Reader">
+    <option value="QR Reader" {{ old('type')=='QR Reader'?'selected':'' }}>
         QR Reader
     </option>
 
 </select>
+
+@error('type')
+<div class="text-danger mt-1">
+    {{ $message }}
+</div>
+@enderror
 
 
 </div>
@@ -145,8 +157,14 @@ Device Code
 
 <input type="text"
 name="device_code"
-class="form-control"
-required>
+class="form-control @error('device_code') is-invalid @enderror"
+value="{{ old('device_code') }}">
+
+@error('device_code')
+<div class="text-danger mt-1">
+    {{ $message }}
+</div>
+@enderror
 
 
 </div>
@@ -167,7 +185,14 @@ IP Address
 
 <input type="text"
 name="ip_address"
-class="form-control">
+class="form-control @error('ip_address') is-invalid @enderror"
+value="{{ old('ip_address') }}">
+
+@error('ip_address')
+<div class="text-danger mt-1">
+    {{ $message }}
+</div>
+@enderror
 
 
 </div>
@@ -188,7 +213,14 @@ Location
 
 <input type="text"
 name="location"
-class="form-control">
+class="form-control @error('location') is-invalid @enderror"
+value="{{ old('location') }}">
+
+@error('location')
+<div class="text-danger mt-1">
+    {{ $message }}
+</div>
+@enderror
 
 
 </div>
@@ -197,6 +229,33 @@ class="form-control">
 
 </div>
 
+<div class="col-md-6 mb-3">
+
+    <label class="form-label">
+        Status
+    </label>
+
+    <select
+        name="status"
+        class="form-control @error('status') is-invalid @enderror">
+
+        <option value="1" {{ old('status',1)==1 ? 'selected' : '' }}>
+            Active
+        </option>
+
+        <option value="0" {{ old('status')==='0' ? 'selected' : '' }}>
+            Inactive
+        </option>
+
+    </select>
+
+    @error('status')
+        <div class="text-danger mt-1">
+            {{ $message }}
+        </div>
+    @enderror
+
+</div>
 
 
 <button class="btn btn-primary">

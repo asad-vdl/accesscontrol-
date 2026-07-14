@@ -23,14 +23,18 @@ action="{{ route('gates.store') }}">
 
 <div class="mb-3">
 
-<label>
-Gate Name
-</label>
+<label>Gate Name</label>
 
 <input type="text"
-name="name"
-class="form-control"
-required>
+       name="name"
+       class="form-control @error('name') is-invalid @enderror"
+       value="{{ old('name') }}">
+
+@error('name')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
 </div>
 
@@ -39,30 +43,18 @@ required>
 
 <div class="mb-3">
 
-<label>
-Location
-</label>
-
+<label>Location</label>
 
 <input type="text"
-name="location"
-class="form-control">
+       name="location"
+       class="form-control @error('location') is-invalid @enderror"
+       value="{{ old('location') }}">
 
+@error('location')
+<div class="invalid-feedback">
+    {{ $message }}
 </div>
-
-
-
-
-<div class="mb-3">
-
-<label>
-Description
-</label>
-
-
-<textarea name="description"
-class="form-control"></textarea>
-
+@enderror
 
 </div>
 
@@ -72,22 +64,27 @@ class="form-control"></textarea>
 <div class="mb-3">
 
 
-<label>
-Status
-</label>
+<label>Status</label>
 
+<select
+    name="status"
+    class="form-control @error('status') is-invalid @enderror">
 
-<select name="status" class="form-control">
+    <option value="1" {{ old('status','1')=='1' ? 'selected' : '' }}>
+        Active
+    </option>
 
-<option value="1">
-Active
-</option>
-
-<option value="0">
-Inactive
-</option>
+    <option value="0" {{ old('status')=='0' ? 'selected' : '' }}>
+        Inactive
+    </option>
 
 </select>
+
+@error('status')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
 
 </div>

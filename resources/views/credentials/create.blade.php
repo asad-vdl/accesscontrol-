@@ -21,20 +21,33 @@
 
                 <label>User</label>
 
-                <select name="user_id"
-                        class="form-control">
+               <select
+    name="user_id"
+    class="form-control @error('user_id') is-invalid @enderror">
 
-                    @foreach($users as $user)
+    <option value="">
+        Select User
+    </option>
 
-                        <option value="{{ $user->id }}">
+    @foreach($users as $user)
 
-                            {{ $user->name }}
+        <option
+            value="{{ $user->id }}"
+            {{ old('user_id') == $user->id ? 'selected' : '' }}>
 
-                        </option>
+            {{ $user->name }}
 
-                    @endforeach
+        </option>
 
-                </select>
+    @endforeach
+
+</select>
+
+@error('user_id')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -42,34 +55,51 @@
 
                 <label>Credential Type</label>
 
-                <select name="credential_type"
-                        class="form-control">
+               <select
+    name="credential_type"
+    class="form-control @error('credential_type') is-invalid @enderror">
 
-                    <option value="card">
-                        RFID Card
-                    </option>
+    <option value="">
+        Select Credential Type
+    </option>
 
-                    <option value="pin">
-                        PIN Code
-                    </option>
+    <option value="card"
+        {{ old('credential_type')=='card' ? 'selected' : '' }}>
+        RFID Card
+    </option>
 
-                    <option value="fingerprint">
-                        Fingerprint
-                    </option>
+    <option value="pin"
+        {{ old('credential_type')=='pin' ? 'selected' : '' }}>
+        PIN Code
+    </option>
 
-                    <option value="palm">
-                        Palm
-                    </option>
+    <option value="fingerprint"
+        {{ old('credential_type')=='fingerprint' ? 'selected' : '' }}>
+        Fingerprint
+    </option>
 
-                    <option value="face">
-                        Face Recognition
-                    </option>
+    <option value="palm"
+        {{ old('credential_type')=='palm' ? 'selected' : '' }}>
+        Palm
+    </option>
 
-                    <option value="qr">
-    QR Code
-</option>
+    <option value="face"
+        {{ old('credential_type')=='face' ? 'selected' : '' }}>
+        Face Recognition
+    </option>
 
-                </select>
+    <option value="qr"
+        {{ old('credential_type')=='qr' ? 'selected' : '' }}>
+        QR Code
+    </option>
+
+</select>
+
+@error('credential_type')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -77,9 +107,17 @@
 
                 <label>Credential Value</label>
 
-                <input type="text"
-                       name="credential_value"
-                       class="form-control">
+               <input
+    type="text"
+    name="credential_value"
+    class="form-control @error('credential_value') is-invalid @enderror"
+    value="{{ old('credential_value') }}">
+
+@error('credential_value')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 
@@ -87,28 +125,43 @@
 
                 <label>Status</label>
 
-                <select name="status"
-                        class="form-control">
+                <select
+    name="status"
+    class="form-control @error('status') is-invalid @enderror">
 
-                    <option value="1">
-                        Active
-                    </option>
+    <option value="1"
+        {{ old('status','1')=='1' ? 'selected' : '' }}>
+        Active
+    </option>
 
-                    <option value="0">
-                        Inactive
-                    </option>
+    <option value="0"
+        {{ old('status')=='0' ? 'selected' : '' }}>
+        Inactive
+    </option>
 
-                </select>
+</select>
 
+@error('status')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
             </div>
 
             <div class="col-md-12 mb-3">
 
                 <label>Notes</label>
 
-                <textarea name="notes"
-                          class="form-control"
-                          rows="3"></textarea>
+                <textarea
+    name="notes"
+    rows="3"
+    class="form-control @error('notes') is-invalid @enderror">{{ old('notes') }}</textarea>
+
+@error('notes')
+<div class="invalid-feedback">
+    {{ $message }}
+</div>
+@enderror
 
             </div>
 

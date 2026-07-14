@@ -29,34 +29,6 @@ Back
 
 
 
-@if($errors->any())
-
-
-<div class="alert alert-danger">
-
-<ul>
-
-@foreach($errors->all() as $error)
-
-<li>
-{{ $error }}
-</li>
-
-@endforeach
-
-</ul>
-
-
-</div>
-
-
-@endif
-
-
-
-
-
-
 <form action="{{ route('devices.update',$device->id) }}" method="POST">
 
 
@@ -84,35 +56,28 @@ Select Gate
 
 
 
-<select name="gate_id" class="form-control" required>
+<select name="gate_id" class="form-control @error('gate_id') is-invalid @enderror">
 
+    @foreach($gates as $gate)
 
+    <option value="{{ $gate->id }}"
+        {{ old('gate_id', $device->gate_id) == $gate->id ? 'selected' : '' }}>
 
-@foreach($gates as $gate)
+        {{ $gate->name }}
 
+        @if($gate->location)
+            - {{ $gate->location }}
+        @endif
 
-<option value="{{ $gate->id }}"
+    </option>
 
-
-{{ $device->gate_id == $gate->id ? 'selected':'' }}>
-
-
-{{ $gate->name }}
-
--
-
-{{ $gate->location }}
-
-
-
-</option>
-
-
-@endforeach
-
-
+    @endforeach
 
 </select>
+
+@error('gate_id')
+<div class="text-danger mt-1">{{ $message }}</div>
+@enderror
 
 
 </div>
@@ -135,14 +100,13 @@ Device Name
 
 
 <input type="text"
-
 name="name"
+class="form-control @error('name') is-invalid @enderror"
+value="{{ old('name', $device->name) }}">
 
-class="form-control"
-
-value="{{ $device->name }}"
-
-required>
+@error('name')
+<div class="text-danger mt-1">{{ $message }}</div>
+@enderror
 
 
 
@@ -167,66 +131,43 @@ Device Type
 
 
 
-<select name="type" class="form-control">
-
-
+<select name="type" class="form-control @error('type') is-invalid @enderror">
 
 <option value="RFID Reader"
-{{ $device->type=='RFID Reader'?'selected':'' }}>
-
+{{ old('type',$device->type)=='RFID Reader'?'selected':'' }}>
 RFID Reader
-
 </option>
 
- <option value="PIN Reader" {{ $device->type=='PIN Reader' ? 'selected' : '' }}>
-        PIN Reader
-    </option>
-
-
-<option value="Fingerprint"
-{{ $device->type=='Fingerprint'?'selected':'' }}>
-
-Fingerprint
-
+<option value="PIN Reader"
+{{ old('type',$device->type)=='PIN Reader'?'selected':'' }}>
+PIN Reader
 </option>
 
-
-
-<option value="Palm"
-{{ $device->type=='Palm'?'selected':'' }}>
-
-Palm
-
+<option value="Fingerprint Reader"
+{{ old('type',$device->type)=='Fingerprint Reader'?'selected':'' }}>
+Fingerprint Reader
 </option>
 
-
+<option value="Palm Reader"
+{{ old('type',$device->type)=='Palm Reader'?'selected':'' }}>
+Palm Reader
+</option>
 
 <option value="Face Recognition"
-{{ $device->type=='Face Recognition'?'selected':'' }}>
-
+{{ old('type',$device->type)=='Face Recognition'?'selected':'' }}>
 Face Recognition
-
 </option>
 
-
-
-<option value="Keypad"
-{{ $device->type=='Keypad'?'selected':'' }}>
-
-Keypad
-
+<option value="QR Reader"
+{{ old('type',$device->type)=='QR Reader'?'selected':'' }}>
+QR Reader
 </option>
-
-<option value="QR Scanner"
-{{ $device->type=='QR Scanner'?'selected':'' }}>
-
-QR Scanner
-
-</option>
-
-
 
 </select>
+
+@error('type')
+<div class="text-danger mt-1">{{ $message }}</div>
+@enderror
 
 
 </div>
@@ -249,14 +190,13 @@ Device Code
 
 
 <input type="text"
-
 name="device_code"
+class="form-control @error('device_code') is-invalid @enderror"
+value="{{ old('device_code', $device->device_code) }}">
 
-class="form-control"
-
-value="{{ $device->device_code }}">
-
-
+@error('device_code')
+<div class="text-danger mt-1">{{ $message }}</div>
+@enderror
 
 </div>
 
@@ -278,12 +218,13 @@ IP Address
 
 
 <input type="text"
-
 name="ip_address"
+class="form-control @error('ip_address') is-invalid @enderror"
+value="{{ old('ip_address', $device->ip_address) }}">
 
-class="form-control"
-
-value="{{ $device->ip_address }}">
+@error('ip_address')
+<div class="text-danger mt-1">{{ $message }}</div>
+@enderror
 
 
 
@@ -305,14 +246,14 @@ Location
 </label>
 
 
-
 <input type="text"
-
 name="location"
+class="form-control @error('location') is-invalid @enderror"
+value="{{ old('location', $device->location) }}">
 
-class="form-control"
-
-value="{{ $device->location }}">
+@error('location')
+<div class="text-danger mt-1">{{ $message }}</div>
+@enderror
 
 
 
@@ -336,31 +277,23 @@ Status
 
 
 
-<select name="status" class="form-control">
-
-
+<select name="status" class="form-control @error('status') is-invalid @enderror">
 
 <option value="1"
-
-{{ $device->status==1?'selected':'' }}>
-
+{{ old('status',$device->status)==1 ? 'selected' : '' }}>
 Active
-
 </option>
-
-
 
 <option value="0"
-
-{{ $device->status==0?'selected':'' }}>
-
+{{ old('status',$device->status)==0 ? 'selected' : '' }}>
 Inactive
-
 </option>
 
-
-
 </select>
+
+@error('status')
+<div class="text-danger mt-1">{{ $message }}</div>
+@enderror
 
 
 

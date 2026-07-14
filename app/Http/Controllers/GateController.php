@@ -44,22 +44,11 @@ class GateController extends Controller
     {
 
 
-        $validated = $request->validate([
-
-
-            'name' => 'required|string|max:255',
-
-
-            'location' => 'nullable|string|max:255',
-
-
-            'description' => 'nullable|string',
-
-
-            'status' => 'required|boolean',
-
-
-        ]);
+       $validated = $request->validate([
+    'name' => 'required|string|max:100',
+    'location' => 'nullable|string|max:255',
+    'status' => 'required|boolean',
+]);
 
 
 
@@ -76,9 +65,6 @@ class GateController extends Controller
 
 
             'location' => $validated['location'] ?? null,
-
-
-            'description' => $validated['description'] ?? null,
 
 
             'status' => $validated['status'],
@@ -146,22 +132,13 @@ class GateController extends Controller
 
         $validated = $request->validate([
 
+        'name' => 'required|string|max:100',
 
-            'name' => 'required|string|max:255',
+        'location' => 'nullable|string|max:255',
 
+        'status' => 'required|boolean',
 
-            'location' => 'nullable|string|max:255',
-
-
-            'description' => 'nullable|string',
-
-
-            'status' => 'required|boolean',
-
-
-        ]);
-
-
+    ]);
 
 
 
@@ -175,9 +152,6 @@ class GateController extends Controller
 
 
             'location' => $validated['location'] ?? null,
-
-
-            'description' => $validated['description'] ?? null,
 
 
             'status' => $validated['status'],

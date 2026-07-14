@@ -11,10 +11,12 @@ Gates
 </h2>
 
 
-<a href="{{ route('gates.create') }}" 
-class="btn btn-primary mb-3">
+<a href="{{ route('gates.create') }}"
+   class="btn btn-primary mb-3">
 
-+ Add Gate
+    <i class="bi bi-plus-circle me-1"></i>
+
+    Add Gate
 
 </a>
 
@@ -76,16 +78,26 @@ class="btn btn-primary mb-3">
 
 <td>
 
-@if($gate->status == 'active')
+@if($gate->status)
 
-<span class="badge bg-success">
-Active
+<span class="d-inline-flex align-items-center">
+
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
+
+    Active
+
 </span>
 
 @else
 
-<span class="badge bg-danger">
-Inactive
+<span class="d-inline-flex align-items-center">
+
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
+
+    Inactive
+
 </span>
 
 @endif
@@ -97,41 +109,34 @@ Inactive
 
 <td>
 
+    <a href="{{ route('gates.edit',$gate->id) }}"
+       class="btn btn-light btn-sm border me-1"
+       title="Edit Gate">
 
-<a href="{{ route('gates.edit',$gate->id) }}"
-class="btn btn-warning btn-sm">
+        <i class="bi bi-pencil-square text-primary"></i>
 
-Edit
+    </a>
 
-</a>
+    <form action="{{ route('gates.destroy',$gate->id) }}"
+          method="POST"
+          class="d-inline">
 
+        @csrf
+        @method('DELETE')
 
+        <button
+            type="submit"
+            class="btn btn-light btn-sm border"
+            title="Delete Gate"
+            onclick="return confirm('Delete this gate?')">
 
-<form action="{{ route('gates.destroy',$gate->id) }}"
-method="POST"
-style="display:inline">
+            <i class="bi bi-trash text-danger"></i>
 
+        </button>
 
-@csrf
-
-@method('DELETE')
-
-
-<button class="btn btn-danger btn-sm"
-onclick="return confirm('Delete Gate?')">
-
-Delete
-
-</button>
-
-
-</form>
-
-
+    </form>
 
 </td>
-
-
 </tr>
 
 
