@@ -1,24 +1,19 @@
 @extends('layouts.app')
 
-
 @section('content')
 
 
-<div class="container">
-
-<h2 class="mb-4">
-Gates
-</h2>
+<div class="container-fluid">
 
 
-<a href="{{ route('gates.create') }}"
-   class="btn btn-primary mb-3">
+    <a href="{{ route('gates.create') }}"
+       class="btn btn-primary mb-4">
 
-    <i class="bi bi-plus-circle me-1"></i>
+        <i class="bi bi-plus-circle me-1"></i>
 
-    Add Gate
+        Add Gate
 
-</a>
+    </a>
 
 
 
@@ -34,51 +29,102 @@ Gates
 
 
 
-<table class="table table-bordered">
 
-<thead>
+<div class="card border-0 shadow-sm">
+
+
+<div class="card-header bg-white">
+
+<h5 class="mb-0">
+
+Gate Management
+
+</h5>
+
+</div>
+
+
+
+
+<div class="card-body">
+
+
+<div class="table-responsive">
+
+
+<table class="table table-hover align-middle">
+
+
+<thead class="table-light">
+
 
 <tr>
 
 <th>ID</th>
+
 <th>Name</th>
+
 <th>Location</th>
+
 <th>Status</th>
-<th>Action</th>
+
+<th width="150">
+Actions
+</th>
+
 
 </tr>
 
+
 </thead>
+
 
 
 
 <tbody>
 
 
-@foreach($gates as $gate)
+@forelse($gates as $gate)
 
 
 <tr>
 
+
 <td>
+
 {{ $gate->id }}
+
 </td>
 
 
+
 <td>
+
+<strong>
+
 {{ $gate->name }}
+
+</strong>
+
 </td>
 
 
+
+
 <td>
-{{ $gate->location }}
+
+{{ $gate->location ?? '-' }}
+
 </td>
 
 
 
+
 <td>
+
 
 @if($gate->status)
+
 
 <span class="d-inline-flex align-items-center">
 
@@ -89,7 +135,9 @@ Gates
 
 </span>
 
+
 @else
+
 
 <span class="d-inline-flex align-items-center">
 
@@ -100,6 +148,7 @@ Gates
 
 </span>
 
+
 @endif
 
 
@@ -107,50 +156,99 @@ Gates
 
 
 
-<td>
 
-    <a href="{{ route('gates.edit',$gate->id) }}"
-       class="btn btn-light btn-sm border me-1"
-       title="Edit Gate">
 
-        <i class="bi bi-pencil-square text-primary"></i>
+<td class="text-nowrap">
 
-    </a>
 
-    <form action="{{ route('gates.destroy',$gate->id) }}"
-          method="POST"
-          class="d-inline">
+<a href="{{ route('gates.edit',$gate->id) }}"
+   class="btn btn-light btn-sm border"
+   title="Edit Gate">
 
-        @csrf
-        @method('DELETE')
 
-        <button
-            type="submit"
-            class="btn btn-light btn-sm border"
-            title="Delete Gate"
-            onclick="return confirm('Delete this gate?')">
+<i class="bi bi-pencil-square text-primary"></i>
 
-            <i class="bi bi-trash text-danger"></i>
 
-        </button>
+</a>
 
-    </form>
+
+
+
+<form action="{{ route('gates.destroy',$gate->id) }}"
+      method="POST"
+      class="d-inline">
+
+
+@csrf
+@method('DELETE')
+
+
+<button type="submit"
+        class="btn btn-light btn-sm border"
+        title="Delete Gate"
+        onclick="return confirm('Delete this gate?')">
+
+
+<i class="bi bi-trash text-danger"></i>
+
+
+</button>
+
+
+</form>
+
 
 </td>
+
+
 </tr>
 
 
-@endforeach
+
+@empty
+
+
+<tr>
+
+
+<td colspan="5"
+    class="text-center py-4">
+
+
+No Gates Found
+
+
+</td>
+
+
+</tr>
+
+
+@endforelse
+
 
 
 </tbody>
 
 
+
 </table>
 
 
+</div>
+
+
+<div class="mt-3">
 
 {{ $gates->links() }}
+
+</div>
+
+
+</div>
+
+
+</div>
 
 
 </div>

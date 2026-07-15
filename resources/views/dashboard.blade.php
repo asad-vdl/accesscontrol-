@@ -5,8 +5,15 @@
 
 
 <div class="card border-0 shadow-sm mb-4">
-    <div class="card-header bg-dark text-white">
-        ⚡ Live Hardware Status (Real-Time)
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            Live Hardware Status
+
+        </h5>
+
     </div>
 
     <div class="card-body">
@@ -14,28 +21,61 @@
         <div class="row text-center">
 
             <div class="col-md-3">
-                <h6>🧲 Maglock</h6>
-                <h4 id="maglock_status" class="text-danger">LOADING...</h4>
+
+                <h6 class="text-muted">Maglock</h6>
+
+                <span id="maglock_status"
+                      class="d-inline-flex align-items-center fw-bold">
+
+                    Loading...
+
+                </span>
+
             </div>
 
             <div class="col-md-3">
-                <h6>⚡ Relay</h6>
-                <h4 id="relay_status" class="text-secondary">LOADING...</h4>
+
+                <h6 class="text-muted">Relay</h6>
+
+                <span id="relay_status"
+                      class="d-inline-flex align-items-center fw-bold">
+
+                    Loading...
+
+                </span>
+
             </div>
 
             <div class="col-md-3">
-                <h6>🚪 Door</h6>
-                <h4 id="door_status" class="text-primary">LOADING...</h4>
+
+                <h6 class="text-muted">Door</h6>
+
+                <span id="door_status"
+                      class="d-inline-flex align-items-center fw-bold">
+
+                    Loading...
+
+                </span>
+
             </div>
 
             <div class="col-md-3">
-                <h6>🔔 Buzzer</h6>
-                <h4 id="buzzer_status" class="text-warning">LOADING...</h4>
+
+                <h6 class="text-muted">Buzzer</h6>
+
+                <span id="buzzer_status"
+                      class="d-inline-flex align-items-center fw-bold">
+
+                    Loading...
+
+                </span>
+
             </div>
 
         </div>
 
     </div>
+
 </div>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -176,19 +216,29 @@
 
                 <td>
 
-                    @if($log->access_status == 'granted')
+                   @if($log->access_status == 'granted')
 
-                        <span class="badge bg-success">
-                            Granted
-                        </span>
+<span class="d-inline-flex align-items-center">
 
-                    @else
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-                        <span class="badge bg-danger">
-                            Denied
-                        </span>
+    Granted
 
-                    @endif
+</span>
+
+@else
+
+<span class="d-inline-flex align-items-center">
+
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
+
+    Denied
+
+</span>
+
+@endif
 
                 </td>
 
@@ -250,18 +300,27 @@
 
                     @if($device->online_status)
 
-                        <span class="badge bg-success">
-                            Online
-                        </span>
+<span class="d-inline-flex align-items-center">
 
-                    @else
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-                        <span class="badge bg-danger">
-                            Offline
-                        </span>
+    Online
 
-                    @endif
+</span>
 
+@else
+
+<span class="d-inline-flex align-items-center">
+
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
+
+    Offline
+
+</span>
+
+@endif
                 </td>
 
                 <td>
@@ -292,13 +351,25 @@
 </div>
 
 <div class="card border-0 shadow-sm mt-4">
-    <div class="card-header bg-dark text-white">
-        🔥 Live Activity Feed
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            Live Activity Feed
+
+        </h5>
+
     </div>
 
-    <div class="card-body">
-        <ul id="event_feed" class="list-group"></ul>
+    <div class="card-body p-0">
+
+        <ul id="event_feed" class="list-group list-group-flush">
+
+        </ul>
+
     </div>
+
 </div>
 
 <script>
@@ -312,30 +383,28 @@ async function loadHardwareStatus() {
 
         const hw = data.hardware_status;
 
-        // Maglock
-        document.getElementById("maglock_status").innerText = hw.maglock;
+        function setStatus(id, value, activeValue, activeText, inactiveText) {
 
-        // Relay
-        document.getElementById("relay_status").innerText = hw.relay;
+    const el = document.getElementById(id);
 
-        // Door
-        document.getElementById("door_status").innerText = hw.door;
+    const active = value === activeValue;
 
-        // Buzzer
-        document.getElementById("buzzer_status").innerText = hw.buzzer;
+    el.innerHTML = `
+        <span class="rounded-circle ${active ? 'bg-success' : 'bg-danger'} me-2"
+              style="width:10px;height:10px;display:inline-block;">
+        </span>
 
-        // Colors (dynamic)
-        document.getElementById("maglock_status").style.color =
-            hw.maglock === "LOCKED" ? "red" : "green";
+        ${active ? activeText : inactiveText}
+    `;
+}
 
-        document.getElementById("relay_status").style.color =
-            hw.relay === "ON" ? "green" : "gray";
+setStatus("maglock_status", hw.maglock, "RELEASED", "Unlocked", "Locked");
 
-        document.getElementById("door_status").style.color =
-            hw.door === "OPEN" ? "green" : "blue";
+setStatus("relay_status", hw.relay, "ON", "ON", "OFF");
 
-        document.getElementById("buzzer_status").style.color =
-            hw.buzzer === "OFF" ? "gray" : "orange";
+setStatus("door_status", hw.door, "OPEN", "Open", "Closed");
+
+setStatus("buzzer_status", hw.buzzer, "ON", "ON", "OFF");
 
     } catch (error) {
         console.log("Hardware API error:", error);
@@ -367,9 +436,26 @@ async function loadEvents() {
             const li = document.createElement("li");
             li.className = "list-group-item";
 
-            li.innerHTML = `
-                <b>[${ev.time}]</b> ${ev.message}
-            `;
+           li.innerHTML = `
+<div class="d-flex justify-content-between align-items-center">
+
+    <div>
+
+        <span class="rounded-circle bg-success me-2"
+              style="width:10px;height:10px;display:inline-block;"></span>
+
+        ${ev.message}
+
+    </div>
+
+    <small class="text-muted">
+
+        ${ev.time}
+
+    </small>
+
+</div>
+`;
 
             feed.appendChild(li);
         });
