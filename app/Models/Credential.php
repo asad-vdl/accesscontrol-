@@ -33,4 +33,17 @@ class Credential extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function accessLogs()
+{
+    return $this->hasMany(
+
+        AccessLog::class,
+
+        'credential_value',
+
+        'credential_value'
+
+    );
+}
+
 }

@@ -95,13 +95,53 @@ class GateController extends Controller
 
 
 
-    public function show(Gate $gate)
-    {
+   public function show(Gate $gate)
+{
+   $gate->load([
 
-        return view('gates.show', compact('gate'));
+    'devices',
+
+    'users.credentials',
+
+    'users.accessSchedule',
+
+    'devices.accessLogs.user',
+
+    'devices.accessLogs' => function ($query) {
+
+        $query->latest()->take(10);
 
     }
 
+]);
+
+    $totalDevices = $gate->devices->count();
+
+    $totalUsers = $gate->users->count();
+
+    $totalCredentials = $gate->users
+        ->flatMap->credentials
+        ->count();
+
+    $todayLogs = $gate->devices
+        ->flatMap->accessLogs
+        ->where('created_at', '>=', now()->startOfDay())
+        ->count();
+
+    return view('gates.show', compact(
+
+        'gate',
+
+        'totalDevices',
+
+        'totalUsers',
+
+        'totalCredentials',
+
+        'todayLogs'
+
+    ));
+}
 
 
 

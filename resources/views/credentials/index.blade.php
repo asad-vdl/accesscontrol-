@@ -267,6 +267,15 @@
 
                             <td>
 
+                                 <a href="{{ route('credentials.show', $credential->id) }}"
+           class="btn btn-light btn-sm border"
+           title="View Credential">
+
+            <i class="bi bi-eye text-success"></i>
+
+        </a>
+
+
     <a href="{{ route('credentials.edit',$credential->id) }}"
        class="btn btn-light btn-sm border me-1"
        title="Edit Credential">

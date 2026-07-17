@@ -7,7 +7,7 @@ use App\Models\Device;
 use App\Models\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use App\Models\User;
 
 
 class DeviceController extends Controller
@@ -147,13 +147,58 @@ class DeviceController extends Controller
 
 
 
-    public function show(Device $device)
-    {
+  public function show(Device $device)
+{
+    $device->load([
 
-        return view('devices.show',compact('device'));
+        'gate',
 
-    }
+        'accessLogs.user'
 
+    ]);
+
+    $assignedUsers = User::where('status', 1)
+
+        ->whereHas('gates', function ($query) use ($device) {
+
+            $query->where('gates.id', $device->gate_id);
+
+        })
+
+        ->orderBy('name')
+
+        ->get();
+
+    $totalLogs = $device->accessLogs->count();
+
+    $grantedLogs = $device->accessLogs
+        ->where('access_status', 'granted')
+        ->count();
+
+    $deniedLogs = $device->accessLogs
+        ->where('access_status', 'denied')
+        ->count();
+
+    $todayLogs = $device->accessLogs
+        ->where('created_at', '>=', now()->startOfDay())
+        ->count();
+
+    return view('devices.show', compact(
+
+        'device',
+
+        'assignedUsers',
+
+        'totalLogs',
+
+        'grantedLogs',
+
+        'deniedLogs',
+
+        'todayLogs'
+
+    ));
+}
 
 
 

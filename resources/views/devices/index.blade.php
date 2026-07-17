@@ -414,6 +414,14 @@ No Gate
 
     <div class="d-flex align-items-center gap-2">
 
+        <a href="{{ route('devices.show', $device->id) }}"
+   class="btn btn-light btn-sm border"
+   title="View Device">
+
+    <i class="bi bi-eye text-success"></i>
+
+</a>
+
         <a href="{{ route('devices.edit',$device->id) }}"
            class="btn btn-light btn-sm border"
            title="Edit Device">

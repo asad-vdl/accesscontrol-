@@ -94,6 +94,55 @@ class CredentialController extends Controller
 
 
 
+
+    public function show(Credential $credential)
+{
+    $credential->load([
+
+        'user.gates.devices',
+
+        'accessLogs.device'
+
+    ]);
+
+    $totalLogs = $credential->accessLogs->count();
+
+    $grantedLogs = $credential->accessLogs
+        ->where('access_status','granted')
+        ->count();
+
+    $deniedLogs = $credential->accessLogs
+        ->where('access_status','denied')
+        ->count();
+
+    $todayLogs = $credential->accessLogs
+        ->where('created_at','>=',now()->startOfDay())
+        ->count();
+
+    return view(
+
+        'credentials.show',
+
+        compact(
+
+            'credential',
+
+            'totalLogs',
+
+            'grantedLogs',
+
+            'deniedLogs',
+
+            'todayLogs'
+
+        )
+
+    );
+}
+
+
+
+
        public function update(Request $request, Credential $credential)
 {
 

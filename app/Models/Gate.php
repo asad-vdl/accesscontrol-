@@ -50,6 +50,14 @@ class Gate extends Model
 
     }
 
+    public function users()
+{
+    return $this->belongsToMany(
+        User::class,
+        'user_gate_permissions'
+    )->withPivot('access_allowed');
+}
+
 
 
 }

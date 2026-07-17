@@ -160,6 +160,14 @@ Actions
 
 <td class="text-nowrap">
 
+    <a href="{{ route('gates.show', $gate->id) }}"
+   class="btn btn-light btn-sm border"
+   title="View Gate">
+
+    <i class="bi bi-eye text-success"></i>
+
+</a>
+
 
 <a href="{{ route('gates.edit',$gate->id) }}"
    class="btn btn-light btn-sm border"
