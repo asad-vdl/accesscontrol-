@@ -289,6 +289,14 @@
 
                            <td class="text-nowrap">
 
+                             <a href="{{ route('users.show',$user->id) }}"
+       class="btn btn-light btn-sm border"
+       title="View User">
+
+        <i class="bi bi-eye-fill text-info"></i>
+
+    </a>
+
     <a href="{{ route('users.edit',$user->id) }}"
        class="btn btn-light btn-sm border"
        title="Edit User">

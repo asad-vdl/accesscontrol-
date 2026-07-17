@@ -274,14 +274,45 @@ UserAccessSchedule::create([
 
 
 
-    public function show(User $user)
-    {
+   public function show(User $user)
+{
+    $user->load([
 
+        'gates.devices',
 
-        return view('users.show',compact('user'));
+        'credentials',
 
-    }
+        'accessSchedule',
 
+        'accessLogs.device' => function ($query) {
+
+            $query->latest()->take(10);
+
+        }
+
+    ]);
+
+    $totalCredentials = $user->credentials->count();
+
+    $totalGates = $user->gates->count();
+
+    $totalDevices = $user->gates
+        ->flatMap->devices
+        ->unique('id')
+        ->count();
+
+    return view('users.show', compact(
+
+        'user',
+
+        'totalCredentials',
+
+        'totalGates',
+
+        'totalDevices'
+
+    ));
+}
 
 
 

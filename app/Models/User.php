@@ -4,6 +4,8 @@ namespace App\Models;
 use App\Models\UserGatePermission;
 use App\Models\Gate;
 use App\Models\UserAccessSchedule;
+use App\Models\Credential;
+use App\Models\AccessLog;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -71,4 +73,10 @@ public function accessSchedule()
 {
     return $this->hasOne(UserAccessSchedule::class);
 }
+
+public function credentials()
+{
+    return $this->hasMany(Credential::class);
+}
+
 }
