@@ -2,287 +2,148 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container pt-0 pb-4">
 
     @if(session('success'))
-
         <div class="alert alert-success alert-dismissible fade show">
-
             {{ session('success') }}
-
-            <button class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-
+            <button class="btn-close" data-bs-dismiss="alert"></button>
         </div>
+    @endif
+
+    <div class="row justify-content-end">
+        <div class="col-xl-4 col-lg-5 col-md-6">
+            <div class="card border-0 shadow-lg rounded-4 ms-auto"
+                 style="max-width:340px;">
+
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0">
+                        <i class="bi bi-person-circle me-2"></i>
+                        My Profile
+                    </h4>
+                </div>
+
+                <div class="card-body p-3">
+
+                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+
+                        @csrf
+                        @method('PUT')
+
+                        <div class="text-center mb-3">
+
+    @if($user->photo)
+
+        <img src="{{ asset('storage/'.$user->photo) }}"
+             class="rounded-circle shadow border"
+             width="100"
+             height="100"
+             style="object-fit:cover; border:3px solid #fff;">
+
+    @else
+
+        <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=0D6EFD&color=fff&size=100"
+             class="rounded-circle shadow border"
+             width="100"
+             height="100"
+             style="border:3px solid #fff;">
 
     @endif
 
+</div>
 
-    <div class="row justify-content-center">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Full Name</label>
+                            <input type="text" name="name"
+                                   value="{{ old('name',$user->name) }}"
+                                   class="form-control @error('name') is-invalid @enderror">
 
-        <div class="col-lg-10">
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-            <div class="card">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email Address</label>
+                            <input type="email" name="email"
+                                   value="{{ old('email',$user->email) }}"
+                                   class="form-control @error('email') is-invalid @enderror">
 
-                <div class="card-header bg-primary text-white">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <h4 class="mb-0">
+                        <div class="mb-3">
 
-                        <i class="bi bi-person-circle"></i>
+    <label class="form-label fw-semibold">
 
-                        My Profile
+        Current Password
 
-                    </h4>
+    </label>
 
-                </div>
+    <input
+        type="password"
+        name="current_password"
+        class="form-control @error('current_password') is-invalid @enderror"
+        placeholder="Enter current password">
 
-                <div class="card-body">
+    @error('current_password')
 
-                    <form action="{{ route('profile.update') }}"
-                          method="POST"
-                          enctype="multipart/form-data">
+        <div class="invalid-feedback">
 
-                        @csrf
+            {{ $message }}
 
-                        @method('PUT')
+        </div>
 
-                        <div class="row">
+    @enderror
 
-                            <div class="col-md-4 text-center">
+</div>
 
-                                @if($user->photo)
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">New Password</label>
+                            <input type="password" name="password"
+                                   placeholder="Leave blank if you don't want to change it"
+                                   class="form-control @error('password') is-invalid @enderror">
 
-                                    <img src="{{ asset('storage/'.$user->photo) }}"
-                                         class="rounded-circle shadow border mb-3"
-                                         width="200"
-                                         height="200"
-                                         style="object-fit:cover;">
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                                @else
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Confirm Password</label>
+                            <input type="password"
+                                   name="password_confirmation"
+                                   class="form-control">
+                        </div>
 
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=0D6EFD&color=fff&size=200"
-                                         class="rounded-circle shadow border mb-3">
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Profile Photo</label>
+                            <input type="file"
+                                   name="photo"
+                                   class="form-control @error('photo') is-invalid @enderror">
 
-                                @endif
+                            <small class="text-muted">
+                                JPG, JPEG or PNG (Maximum 2MB)
+                            </small>
 
-                                <input type="file"
-                                       name="photo"
-                                       class="form-control @error('photo') is-invalid @enderror">
-
-                                @error('photo')
-
-                                    <div class="invalid-feedback">
-
-                                        {{ $message }}
-
-                                    </div>
-
-                                @enderror
-
-                            </div>
-
-                            <div class="col-md-8">
-
-                                <div class="row">
-
-                                    <div class="col-md-6 mb-3">
-
-                                        <label class="form-label">
-
-                                            Full Name
-
-                                        </label>
-
-                                        <input type="text"
-                                               name="name"
-                                               value="{{ old('name',$user->name) }}"
-                                               class="form-control @error('name') is-invalid @enderror">
-
-                                        @error('name')
-
-                                            <div class="invalid-feedback">
-
-                                                {{ $message }}
-
-                                            </div>
-
-                                        @enderror
-
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-
-                                        <label class="form-label">
-
-                                            Email
-
-                                        </label>
-
-                                        <input type="email"
-                                               name="email"
-                                               value="{{ old('email',$user->email) }}"
-                                               class="form-control @error('email') is-invalid @enderror">
-
-                                        @error('email')
-
-                                            <div class="invalid-feedback">
-
-                                                {{ $message }}
-
-                                            </div>
-
-                                        @enderror
-
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-
-                                        <label class="form-label">
-
-                                            Phone
-
-                                        </label>
-
-                                        <input type="text"
-                                               name="phone"
-                                               value="{{ old('phone',$user->phone) }}"
-                                               class="form-control">
-
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-
-                                        <label class="form-label">
-
-                                            Employee ID
-
-                                        </label>
-
-                                        <input type="text"
-                                               value="{{ $user->employee_id }}"
-                                               class="form-control"
-                                               readonly>
-
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-
-                                        <label class="form-label">
-
-                                            Role
-
-                                        </label>
-
-                                        <input type="text"
-                                               value="{{ ucfirst($user->role) }}"
-                                               class="form-control"
-                                               readonly>
-
-                                    </div>
-
-                                </div>
-
-                                <hr>
-
-                                <h5>
-
-                                    Change Password
-
-                                </h5>
-
-                                <div class="row">
-
-                                    <div class="col-md-4 mb-3">
-
-                                        <label class="form-label">
-
-                                            Current Password
-
-                                        </label>
-
-                                        <input type="password"
-                                               name="current_password"
-                                               class="form-control @error('current_password') is-invalid @enderror">
-
-                                        @error('current_password')
-
-                                            <div class="invalid-feedback">
-
-                                                {{ $message }}
-
-                                            </div>
-
-                                        @enderror
-
-                                    </div>
-
-                                    <div class="col-md-4 mb-3">
-
-                                        <label class="form-label">
-
-                                            New Password
-
-                                        </label>
-
-                                        <input type="password"
-                                               name="password"
-                                               class="form-control @error('password') is-invalid @enderror">
-
-                                        @error('password')
-
-                                            <div class="invalid-feedback">
-
-                                                {{ $message }}
-
-                                            </div>
-
-                                        @enderror
-
-                                    </div>
-
-                                    <div class="col-md-4 mb-3">
-
-                                        <label class="form-label">
-
-                                            Confirm Password
-
-                                        </label>
-
-                                        <input type="password"
-                                               name="password_confirmation"
-                                               class="form-control">
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
+                            @error('photo')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <hr>
 
-                        <div class="text-end">
-
-                            <a href="{{ route('dashboard') }}"
-                               class="btn btn-secondary">
-
-                                <i class="bi bi-arrow-left"></i>
-
-                                Back
-
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back
                             </a>
 
-                            <button type="submit"
-                                    class="btn btn-primary">
-
-                                <i class="bi bi-check-circle-fill"></i>
-
-                                Save Changes
-
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle-fill me-1"></i>
+                                Update Profile
                             </button>
-
                         </div>
 
                     </form>
@@ -292,7 +153,6 @@
             </div>
 
         </div>
-
     </div>
 
 </div>

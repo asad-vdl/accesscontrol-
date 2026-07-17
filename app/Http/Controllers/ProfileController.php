@@ -34,8 +34,6 @@ class ProfileController extends Controller
 
             'email' => 'required|email|unique:users,email,' . $user->id,
 
-            'phone' => 'nullable|string|max:30',
-
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
             'current_password' => 'nullable|required_with:password',
@@ -47,7 +45,7 @@ class ProfileController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Upload Photo
+        | Upload Profile Photo
         |--------------------------------------------------------------------------
         */
 
@@ -74,17 +72,15 @@ class ProfileController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Update Basic Information
+        | Basic Information
         |--------------------------------------------------------------------------
         */
 
         $data = [
 
-            'name' => $request->name,
+            'name'  => $request->name,
 
             'email' => $request->email,
-
-            'phone' => $request->phone,
 
             'photo' => $photo,
 
@@ -93,23 +89,19 @@ class ProfileController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Update Password (Optional)
+        | Change Password (Optional)
         |--------------------------------------------------------------------------
         */
 
         if ($request->filled('password')) {
 
-            if (
+            if (!Hash::check(
 
-                !Hash::check(
+                $request->current_password,
 
-                    $request->current_password,
+                $user->password
 
-                    $user->password
-
-                )
-
-            ) {
+            )) {
 
                 return back()
 
@@ -128,13 +120,12 @@ class ProfileController extends Controller
                 $request->password
 
             );
-
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | Save
+        | Save Profile
         |--------------------------------------------------------------------------
         */
 
@@ -152,6 +143,5 @@ class ProfileController extends Controller
                 'Profile Updated Successfully.'
 
             );
-
     }
 }
