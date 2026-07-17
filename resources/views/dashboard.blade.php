@@ -89,16 +89,42 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Total Users</h6>
-            <h2 class="text-primary fw-bold">{{ $totalUsers }}</h2>
+            <h2 class="text-primary fw-bold" id="totalUsers">
+    {{ $totalUsers }}
+</h2>
         </div>
     </div>
+</div>
+
+<div class="col-lg-3 col-md-6 mb-4">
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <h6 class="text-muted">
+                Total Gates
+            </h6>
+
+            <h2 class="text-primary fw-bold" id="totalGates">
+
+                {{ $totalGates }}
+
+            </h2>
+
+        </div>
+
+    </div>
+
 </div>
 
 <div class="col-lg-3 col-md-6 mb-4">
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Total Devices</h6>
-            <h2 class="text-success fw-bold">{{ $totalDevices }}</h2>
+            <h2 class="text-success fw-bold" id="totalDevices">
+    {{ $totalDevices }}
+</h2>
         </div>
     </div>
 </div>
@@ -107,7 +133,9 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Credentials</h6>
-            <h2 class="text-warning fw-bold">{{ $totalCredentials }}</h2>
+            <h2 class="text-warning fw-bold" id="totalCredentials">
+    {{ $totalCredentials }}
+</h2>
         </div>
     </div>
 </div>
@@ -116,7 +144,9 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Today's Access</h6>
-            <h2 class="text-info fw-bold">{{ $todayAccessLogs }}</h2>
+            <h2 class="text-info fw-bold" id="todayAccessLogs">
+    {{ $todayAccessLogs }}
+</h2>
         </div>
     </div>
 </div>
@@ -125,7 +155,9 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Granted Access</h6>
-            <h2 class="text-success fw-bold">{{ $grantedAccess }}</h2>
+            <h2 class="text-success fw-bold" id="grantedAccess">
+    {{ $grantedAccess }}
+</h2>
         </div>
     </div>
 </div>
@@ -134,7 +166,9 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Denied Access</h6>
-            <h2 class="text-danger fw-bold">{{ $deniedAccess }}</h2>
+            <h2 class="text-danger fw-bold" id="deniedAccess">
+    {{ $deniedAccess }}
+</h2>
         </div>
     </div>
 </div>
@@ -143,7 +177,9 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Online Devices</h6>
-            <h2 class="text-success fw-bold">{{ $onlineDevices }}</h2>
+            <h2 class="text-success fw-bold" id="onlineDevices">
+    {{ $onlineDevices }}
+</h2>
         </div>
     </div>
 </div>
@@ -152,30 +188,73 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Offline Devices</h6>
-            <h2 class="text-danger fw-bold">{{ $offlineDevices }}</h2>
+           <h2 class="text-danger fw-bold" id="offlineDevices">
+    {{ $offlineDevices }}
+</h2>
         </div>
     </div>
 </div>
 
-<div class="col-lg-6 col-md-6 mb-4">
+<div class="col-lg-3 col-md-6 mb-4">
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Active Users</h6>
-            <h2 class="text-success fw-bold">{{ $activeUsers }}</h2>
+            <h2 class="text-success fw-bold" id="activeUsers">
+    {{ $activeUsers }}
+</h2>
         </div>
     </div>
 </div>
 
-<div class="col-lg-6 col-md-6 mb-4">
+<div class="col-lg-3 col-md-6 mb-4">
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h6 class="text-muted">Inactive Users</h6>
-            <h2 class="text-secondary fw-bold">{{ $inactiveUsers }}</h2>
+            <h2 class="text-secondary fw-bold" id="inactiveUsers">
+    {{ $inactiveUsers }}
+</h2>
         </div>
     </div>
 </div>
 
+<div class="col-lg-3 col-md-6 mb-4">
 
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <h6 class="text-muted mb-3">
+                Access Success Rate
+            </h6>
+
+            <div class="d-flex align-items-center">
+
+                <h2 class="text-success fw-bold mb-0 me-3"
+                    id="accessSuccessRate">
+
+                    {{ $accessSuccessRate }}%
+
+                </h2>
+
+                <div class="progress flex-grow-1"
+                     style="height:8px;">
+
+                    <div
+                        id="accessSuccessBar"
+                        class="progress-bar bg-success"
+                        style="width: {{ $accessSuccessRate }}%;">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 </div>
 
 <div class="card border-0 shadow-sm mt-4">
@@ -467,6 +546,65 @@ async function loadEvents() {
 
 setInterval(loadEvents, 1000);
 loadEvents();
+
+</script>
+
+<script>
+
+async function loadDashboardStats() {
+
+    try {
+
+        const response = await fetch("{{ route('dashboard.live-stats') }}");
+
+        const data = await response.json();
+
+        document.getElementById("totalUsers").textContent = data.totalUsers;
+
+        document.getElementById("totalGates").textContent = data.totalGates;
+
+        document.getElementById("totalDevices").textContent = data.totalDevices;
+
+        document.getElementById("totalCredentials").textContent = data.totalCredentials;
+
+        document.getElementById("todayAccessLogs").textContent = data.todayAccessLogs;
+
+        document.getElementById("grantedAccess").textContent = data.grantedAccess;
+
+        document.getElementById("deniedAccess").textContent = data.deniedAccess;
+
+        document.getElementById("accessSuccessRate").textContent =
+    data.accessSuccessRate + "%";
+
+    document.getElementById("accessSuccessRate").textContent =
+    data.accessSuccessRate + "%";
+
+document.getElementById("accessSuccessBar").style.width =
+    data.accessSuccessRate + "%";
+
+        document.getElementById("onlineDevices").textContent = data.onlineDevices;
+
+        document.getElementById("offlineDevices").textContent = data.offlineDevices;
+
+        document.getElementById("activeUsers").textContent = data.activeUsers;
+
+        document.getElementById("inactiveUsers").textContent = data.inactiveUsers;
+
+    }
+
+    catch(error){
+
+        console.log("Dashboard Live Error:", error);
+
+    }
+
+}
+
+// First Load
+loadDashboardStats();
+
+// Auto Refresh Every 5 Seconds
+setInterval(loadDashboardStats, 5000);
 
 </script>
 

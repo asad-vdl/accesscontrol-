@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])
         ->name('dashboard');
 
+        Route::get('/dashboard/live-stats', [DashboardController::class, 'liveStats'])
+    ->name('dashboard.live-stats');
+
          // Access Terminal
 
     Route::get('/access-terminal', function () {
