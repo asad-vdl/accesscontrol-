@@ -134,7 +134,7 @@
 
             <div class="card border-0 shadow-sm">
 
-                <div class="card-body text-center">
+               <div class="card-body text-center py-4">
 
                     <h6 class="text-muted">
 
@@ -144,21 +144,27 @@
 
                     @if($user->status)
 
-                        <h5 class="text-success fw-bold">
+<span class="d-inline-flex align-items-center mt-2">
 
-                            Active
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-                        </h5>
+    Active
 
-                    @else
+</span>
 
-                        <h5 class="text-danger fw-bold">
+@else
 
-                            Inactive
+<span class="d-inline-flex align-items-center">
 
-                        </h5>
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
 
-                    @endif
+    Inactive
+
+</span>
+
+@endif
 
                 </div>
 
@@ -221,19 +227,25 @@
 
 @if($user->status)
 
-    <span class="badge bg-success px-3 py-2">
+<span class="d-inline-flex align-items-center">
 
-        Active
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-    </span>
+    Active
+
+</span>
 
 @else
 
-    <span class="badge bg-danger px-3 py-2">
+<span class="d-inline-flex align-items-center">
 
-        Inactive
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
 
-    </span>
+    Inactive
+
+</span>
 
 @endif
 
@@ -333,23 +345,29 @@
 
             <div class="form-control bg-light">
 
-                @if($user->status)
+               @if($user->status)
 
-                    <span class="text-success fw-bold">
+<span class="d-inline-flex align-items-center">
 
-                        Active
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-                    </span>
+    Active
 
-                @else
+</span>
 
-                    <span class="text-danger fw-bold">
+@else
 
-                        Inactive
+<span class="d-inline-flex align-items-center">
 
-                    </span>
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
 
-                @endif
+    Inactive
+
+</span>
+
+@endif
 
             </div>
 
@@ -406,23 +424,29 @@
 
                         </div>
 
-                        @if($credential->status)
+                       @if($credential->status)
 
-                            <span class="badge bg-success">
+<span class="d-inline-flex align-items-center">
 
-                                Active
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-                            </span>
+    Active
 
-                        @else
+</span>
 
-                            <span class="badge bg-danger">
+@else
 
-                                Disabled
+<span class="d-inline-flex align-items-center">
 
-                            </span>
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
 
-                        @endif
+    Inactive
+
+</span>
+
+@endif
 
                     </div>
 
@@ -600,21 +624,27 @@
 
                                 @if($user->accessSchedule->status)
 
-                                    <span class="badge bg-success">
+<span class="d-inline-flex align-items-center">
 
-                                        Active
+    <span class="rounded-circle bg-success me-2"
+          style="width:10px;height:10px;"></span>
 
-                                    </span>
+    Active
 
-                                @else
+</span>
 
-                                    <span class="badge bg-danger">
+@else
 
-                                        Disabled
+<span class="d-inline-flex align-items-center">
 
-                                    </span>
+    <span class="rounded-circle bg-danger me-2"
+          style="width:10px;height:10px;"></span>
 
-                                @endif
+    Inactive
+
+</span>
+
+@endif
 
                             </td>
 

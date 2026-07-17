@@ -10,39 +10,33 @@
 
             <h3 class="fw-bold mb-1">
 
-                <i class="bi bi-cpu-fill text-primary me-2"></i>
+              
 
                 Device Details
 
             </h3>
 
-            <small class="text-muted">
-
-                View complete device information
-
-            </small>
-
+        
         </div>
 
         <div>
 
-            <a href="{{ route('devices.index') }}"
-               class="btn btn-outline-secondary">
+           <a href="{{ route('devices.index') }}"
+   class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold shadow-sm">
 
-                <i class="bi bi-arrow-left"></i>
+    <i class="bi bi-arrow-left me-2"></i>
+    Back
 
-                Back
+</a>
 
-            </a>
 
-            <a href="{{ route('devices.edit',$device->id) }}"
-               class="btn btn-primary">
+<a href="{{ route('devices.edit',$device->id) }}"
+   class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
 
-                <i class="bi bi-pencil-square"></i>
+    <i class="bi bi-pencil-square me-2"></i>
+    Edit Device
 
-                Edit Device
-
-            </a>
+</a>
 
         </div>
 
@@ -152,16 +146,16 @@
 
 <div class="card border-0 shadow-lg rounded-4 mb-4">
 
-    <div class="card-header bg-primary text-white py-3">
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white">
 
-        <h4 class="mb-0">
+    <h5 class="mb-0">
 
-            <i class="bi bi-cpu-fill me-2"></i>
+        Device Information
 
-            Device Information
+    </h5>
 
-        </h4>
-
+</div>
     </div>
 
     <div class="card-body">
