@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Access Control</title>
+    <title>
+
+    {{ $setting->company_name ?? 'Smart Access Control' }}
+
+</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -18,18 +22,19 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
             overflow-x:hidden;
         }
 
-        .sidebar{
-            width:260px;
-            min-height:100vh;
-            background:linear-gradient(180deg,#0f172a,#1e293b);
-            position:fixed;
-            left:0;
-            top:0;
-            display:flex;
-            flex-direction:column;
-            z-index:1000;
-        }
-
+       .sidebar{
+    width:260px;
+    height:100vh;
+    background:linear-gradient(180deg,#0f172a,#1e293b);
+    position:fixed;
+    left:0;
+    top:0;
+    display:flex;
+    flex-direction:column;
+    z-index:1000;
+    overflow-y:auto;
+    overflow-x:hidden;
+}
         .brand{
             color:#fff;
             font-size:22px;
@@ -114,7 +119,11 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     box-shadow:0 5px 15px rgba(37,99,235,.3);
 
 }
-
+.brand h5{
+    color:#6c757d;
+    font-size:20px;
+    font-weight:700;
+}
     </style>
 
 </head>
@@ -123,10 +132,32 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
 <div class="sidebar">
 
-    <div class="brand">
-        <i class="bi bi-shield-lock-fill"></i>
-        Smart Access
+   <div class="brand text-center py-3">
+
+   @if($setting && $setting->company_logo)
+
+    <img src="{{ asset('storage/'.$setting->company_logo) }}"
+         class="rounded-circle brand-logo-border shadow-sm mb-2"
+         style="width:70px;height:70px;object-fit:cover;">
+
+@else
+
+    <div class="rounded-circle bg-white d-inline-flex align-items-center justify-content-center shadow-sm mb-2 brand-logo-border"
+         style="width:70px;height:70px;">
+
+        <i class="bi bi-shield-lock-fill text-primary"
+           style="font-size:32px;"></i>
+
     </div>
+
+@endif
+    <h5 class="fw-bold mb-0">
+
+    {{ $setting->company_name ?? 'Smart Access Control' }}
+
+</h5>
+
+</div>
 
     <ul class="nav flex-column mt-3">
 
@@ -180,6 +211,19 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
         <i class="bi bi-bar-chart-line me-2"></i>
 
         Reports
+
+    </a>
+
+</li>
+
+<li class="nav-item">
+
+    <a href="{{ route('settings.index') }}"
+       class="nav-link {{ request()->routeIs('settings.*') ? 'active' : '' }}">
+
+        <i class="bi bi-gear-fill me-2"></i>
+
+        Settings
 
     </a>
 
@@ -273,7 +317,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
     <div class="footer">
 
-        Smart Access Control System © 2026
+        {{ $setting->company_name ?? 'Smart Access Control' }} System © {{ date('Y') }}
 
     </div>
 

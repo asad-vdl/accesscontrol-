@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\GateController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,5 +82,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/reports/export/csv', [ReportController::class, 'exportCsv'])
     ->name('reports.export.csv');
+
+    Route::get('/settings', [SettingController::class, 'index'])
+    ->name('settings.index');
+
+Route::post('/settings', [SettingController::class, 'update'])
+    ->name('settings.update');
 
 });
