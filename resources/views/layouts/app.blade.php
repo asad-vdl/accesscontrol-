@@ -118,7 +118,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
     </style>
 
 </head>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <body>
 
 <div class="sidebar">
@@ -171,6 +171,19 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 Access Logs
             </a>
         </li>
+
+        <li class="nav-item">
+
+    <a href="{{ route('reports.index') }}"
+       class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+
+        <i class="bi bi-bar-chart-line me-2"></i>
+
+        Reports
+
+    </a>
+
+</li>
 
     </ul>
 
