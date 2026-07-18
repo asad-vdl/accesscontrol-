@@ -21,8 +21,8 @@
 
         <div>
 
-           <a href="{{ route('devices.index') }}"
-   class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold shadow-sm">
+         <a href="{{ route('devices.index') }}"
+   class="btn btn-secondary rounded-pill px-4 py-2 fw-semibold shadow-sm">
 
     <i class="bi bi-arrow-left me-2"></i>
     Back
@@ -30,7 +30,7 @@
 </a>
 
 
-<a href="{{ route('devices.edit',$device->id) }}"
+<a href="{{ route('devices.edit', $device->id) }}"
    class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
 
     <i class="bi bi-pencil-square me-2"></i>

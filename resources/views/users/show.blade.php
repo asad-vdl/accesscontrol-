@@ -10,39 +10,33 @@
 
             <h3 class="fw-bold mb-1">
 
-                <i class="bi bi-person-vcard-fill text-primary me-2"></i>
+               
 
                 User Details
 
             </h3>
 
-            <small class="text-muted">
-
-                View complete user information
-
-            </small>
 
         </div>
 
         <div>
 
-            <a href="{{ route('users.index') }}"
-               class="btn btn-outline-secondary">
+           <a href="{{ route('users.index') }}"
+   class="btn btn-secondary rounded-pill px-4 py-2 fw-semibold shadow-sm">
 
-                <i class="bi bi-arrow-left"></i>
+    <i class="bi bi-arrow-left me-2"></i>
+    Back
 
-                Back
+</a>
 
-            </a>
 
-            <a href="{{ route('users.edit',$user->id) }}"
-               class="btn btn-primary">
+<a href="{{ route('users.edit',$user->id) }}"
+   class="btn btn-primary rounded-pill px-4 py-2 fw-semibold shadow-sm">
 
-                <i class="bi bi-pencil-square"></i>
+    <i class="bi bi-pencil-square me-2"></i>
+    Edit User
 
-                Edit User
-
-            </a>
+</a>
 
         </div>
 
@@ -182,7 +176,7 @@
 
             <h5 class="mb-0">
 
-                <i class="bi bi-person-circle me-2"></i>
+               
 
                 User Information
 
